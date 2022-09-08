@@ -11,5 +11,5 @@ export default function ProductList() {
     dispatch(getProducts());
   }, []);
 
-  return <div>{product}</div>;
+  return <div>product list{product}</div>;
 }
