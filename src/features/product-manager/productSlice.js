@@ -6,7 +6,8 @@ export const getProducts = createAsyncThunk('products/getall', async () => {
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
   });
-  return response.data;
+  const value = await response.json();
+  return value;
 });
 
 const initialState = {
@@ -19,8 +20,8 @@ const productSlice = createSlice({
   initialState,
   reducers: {},
   extraReducers(builder) {
-    builder.addCase(getProducts.fulfilled, (state) => {
-      state.products = state;
+    builder.addCase(getProducts.fulfilled, (state, action) => {
+      state.products = action.payload.products;
     });
   },
 });
