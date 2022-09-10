@@ -1,25 +1,15 @@
 import React, { useState } from 'react';
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Pagination from 'components/AppPagination';
-import Items from './Items';
-
-const data = [...Array(33).keys()];
+import PginationComponent from './PginationComponent';
 
 export default function ProductDashboard() {
-  const [sliceItem, setSliceItem] = useState();
+  const [activePage, setActivePage] = useState(2);
 
   return (
-    <div>
-      <Items data={sliceItem} />
-      <Pagination
-        itemsPerPage={7}
-        data={data}
-        pageRangeDisplayed={3}
-        sliceItem={setSliceItem}
-        nextLabel={<FontAwesomeIcon icon={solid('angle-right')} />}
-        previousLabel={<FontAwesomeIcon icon={solid('angle-left')} />}
-      />
-    </div>
+    <PginationComponent
+      activePage={activePage}
+      setActivePage={setActivePage}
+      pages={10}
+      display={5}
+    />
   );
 }
