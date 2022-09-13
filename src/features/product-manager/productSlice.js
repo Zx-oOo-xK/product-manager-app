@@ -1,7 +1,14 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
 
 export const deleteProduct = createAsyncThunk('products/delete', async (id) => {
-  await fetch(`http://localhost:5000/api/v1/products/${id}`, {
+  /**
+   * deleteProduct is a method that delete product with id
+   *
+   * @param {props} props with the following properties:
+   *  - id: the id of product to delete
+   */
+
+  await fetch(`${process.env.REACT_APP_API_URL}/products/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
@@ -9,6 +16,13 @@ export const deleteProduct = createAsyncThunk('products/delete', async (id) => {
 });
 
 export const getProducts = createAsyncThunk('products/getall', async (pagination) => {
+  /**
+   * getProducts is a method returns all products in pagination
+   *
+   * @param {props} props with the following properties:
+   * - pagination: the pagination parameters for the product pages
+   * @return {Promise} Promise resolved when all products
+   */
   const query = `query {
     GetProducts(
         input:{pagination: {page: ${pagination.page}, limit: ${pagination.limit}}}
@@ -30,7 +44,7 @@ export const getProducts = createAsyncThunk('products/getall', async (pagination
     }
 }`;
 
-  const response = await fetch('http://localhost:5000/api/v1/graphql', {
+  const response = await fetch(`${process.env.REACT_APP_API_URL}/graphql`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
@@ -45,9 +59,10 @@ export const getProducts = createAsyncThunk('products/getall', async (pagination
 
 const initialState = {
   products: [],
-  dispatchProduct: false,
   pagination: {},
   loading: false,
+  updateSuccess: null,
+  errorMessage: '',
 };
 
 const productSlice = createSlice({
@@ -60,20 +75,26 @@ const productSlice = createSlice({
         state.products = action.payload.GetProducts.products;
         state.pagination = action.payload.GetProducts.pagination;
         state.loading = false;
-        state.dispatchProduct = false;
-      })
-      .addCase(getProducts.pending, (state) => {
-        state.loading = true;
+        state.updateSuccess = true;
+        state.errorMessage = '';
       })
       .addCase(getProducts.rejected, (state) => {
         state.loading = false;
         state.products = [];
       })
-
       .addCase(deleteProduct.fulfilled, (state) => {
-        state.dispatchProduct = true;
+        state.updateSuccess = true;
+        state.loading = false;
       })
-      .addCase(deleteProduct.pending, () => {});
+      .addCase(deleteProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = action.error.message || 'delete product failed';
+      })
+      .addMatcher(isPending(getProducts, deleteProduct), (state) => {
+        state.loading = true;
+        state.errorMessage = '';
+        state.updateSuccess = null;
+      });
   },
 });
 
