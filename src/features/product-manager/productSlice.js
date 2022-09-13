@@ -1,28 +1,27 @@
 import { createAsyncThunk, createSlice, isPending } from '@reduxjs/toolkit';
 
-export const deleteProduct = createAsyncThunk('products/delete', async (id) => {
-  /**
-   * deleteProduct is a method that delete product with id
-   *
-   * @param {props} props with the following properties:
-   *  - id: the id of product to delete
-   */
+const apiUrl = process.env.REACT_APP_API_URL;
 
-  await fetch(`${process.env.REACT_APP_API_URL}/products/${id}`, {
+/**
+ * deleteProduct is a method that delete product by id
+ *
+ * @param {string} id is the product id
+ */
+export const deleteProduct = createAsyncThunk('products/delete', async (id) => {
+  await fetch(`${apiUrl}/products/${id}`, {
     method: 'DELETE',
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
   });
 });
 
+/**
+ * getProducts is a method returns all products in pagination
+ *
+ * @param {} pagination the pagination information
+ * @return {} list of products and pagination
+ */
 export const getProducts = createAsyncThunk('products/getall', async (pagination) => {
-  /**
-   * getProducts is a method returns all products in pagination
-   *
-   * @param {props} props with the following properties:
-   * - pagination: the pagination parameters for the product pages
-   * @return {Promise} Promise resolved when all products
-   */
   const query = `query {
     GetProducts(
         input:{pagination: {page: ${pagination.page}, limit: ${pagination.limit}}}
@@ -44,7 +43,7 @@ export const getProducts = createAsyncThunk('products/getall', async (pagination
     }
 }`;
 
-  const response = await fetch(`${process.env.REACT_APP_API_URL}/graphql`, {
+  const response = await fetch(`${apiUrl}/graphql`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
