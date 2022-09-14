@@ -4,12 +4,12 @@ import React, { useState } from 'react';
 export default function AppPagination({
   activePage,
   pages,
-  setActivePage,
+  prev,
+  next,
+  goToPage,
   maxDisplayNodePagination,
 }) {
   const list = Array.from({ length: pages }, (_, i) => i + 1);
-  const next = () => (activePage + 1 > pages ? activePage : activePage + 1);
-  const prev = () => (activePage - 1 < 1 ? activePage : activePage - 1);
   const cursorPointer = { cursor: 'pointer' };
   const [offset, setOffset] = useState(0);
   const show = list.slice(offset, offset + maxDisplayNodePagination);
@@ -18,7 +18,7 @@ export default function AppPagination({
     <CPagination>
       <CPaginationItem
         onClick={() => {
-          setActivePage(prev);
+          prev();
           if (offset && activePage < offset + 1 + maxDisplayNodePagination / 2)
             setOffset(offset - 1);
         }}
@@ -30,7 +30,7 @@ export default function AppPagination({
         <CPaginationItem
           key={item}
           active={activePage === item}
-          onClick={() => setActivePage(item)}
+          onClick={() => goToPage(item)}
           style={cursorPointer}
         >
           {item}
@@ -38,7 +38,7 @@ export default function AppPagination({
       ))}
       <CPaginationItem
         onClick={() => {
-          setActivePage(next);
+          next();
           if (
             maxDisplayNodePagination + offset < pages &&
             activePage + 1 > maxDisplayNodePagination / 2 + offset + 1
