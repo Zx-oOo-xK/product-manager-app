@@ -12,14 +12,12 @@ import React from 'react';
 /**
  * withColumns a function that return a table-row component
  *
- * @param {columns} cols - an array of columns {key, dataIndex, title}
+ * @param {columns} cols - an array of columns {key, dataIndex, title, render?: ({ value, record, index }) => React.ReactNode }
  * @returns table row component (data must have id)
  */
 export function withColumns(cols) {
   // eslint-disable-next-line func-names
   return function ({ data }) {
-    // eslint-disable-next-line no-console
-    console.log(data);
     return (
       <CTableRow>
         {cols.map((col) => (
@@ -32,33 +30,33 @@ export function withColumns(cols) {
   };
 }
 
-// render?: (
-//   value: any,
-//   record: RecordType,
-//   index: number,
-// ) => React.ReactNode | RenderedCell<RecordType>;
+// TODO: Table have to style is object
+// TODO: add loading to load data table
 
+/**
+ * @param {Object[]} dataSource - list of data row
+ * @param {Object[]} columns - list of column {key, dataIndex, title, render?: ({ value, record, index }) => React.ReactNode }
+ * @return {CTable} CTable instance
+ */
 export default function AppTable({ dataSource, columns }) {
   const AppRow = withColumns(columns);
 
   return (
-    <div>
-      <CTable className="table table-dark table-hover table-striped table-responsive">
-        <CTableHead className="text-light bg-dark">
-          <CTableRow>
-            {columns.map((col) => (
-              <CTableHeaderCell scope="col" key={col.key}>
-                {col.title}
-              </CTableHeaderCell>
-            ))}
-          </CTableRow>
-        </CTableHead>
-        <CTableBody>
-          {dataSource.map((data) => (
-            <AppRow key={`row_${data.id}`} data={data} />
+    <CTable className="table table-dark table-hover table-striped table-responsive">
+      <CTableHead className="text-light bg-dark">
+        <CTableRow>
+          {columns.map((col) => (
+            <CTableHeaderCell scope="col" key={col.key}>
+              {col.title}
+            </CTableHeaderCell>
           ))}
-        </CTableBody>
-      </CTable>
-    </div>
+        </CTableRow>
+      </CTableHead>
+      <CTableBody>
+        {dataSource.map((data) => (
+          <AppRow key={`row_${data.id}`} data={data} />
+        ))}
+      </CTableBody>
+    </CTable>
   );
 }
