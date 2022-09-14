@@ -1,4 +1,4 @@
-/* eslint-disable no-unused-vars */
+import React, { useCallback } from 'react';
 import {
   CTable,
   CTableBody,
@@ -7,17 +7,19 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react';
-import React from 'react';
 
 /**
  * withColumns a function that return a table-row component
  *
- * @param {columns} cols - an array of columns {key, dataIndex, title, render?: ({ value, record, index }) => React.ReactNode }
- * @returns table row component (data must have id)
+ * @param {Object} cols - a list of columns, with column have properties:
+ * - key: unique key of column
+ * - dataIndex: key of data
+ * - title: title of column
+ * - render?: ({ value, record, index }) => React.ReactNode
+ * @returns a simple component that render a CTableRow
  */
 export function withColumns(cols) {
-  // eslint-disable-next-line func-names
-  return function ({ data }) {
+  return function TableRowWithColumns({ data }) {
     return (
       <CTableRow>
         {cols.map((col) => (
@@ -30,16 +32,19 @@ export function withColumns(cols) {
   };
 }
 
-// TODO: Table have to style is object
 // TODO: add loading to load data table
 
 /**
- * @param {Object[]} dataSource - list of data row
- * @param {Object[]} columns - list of column {key, dataIndex, title, render?: ({ value, record, index }) => React.ReactNode }
+ * @param {Object[]} dataSource - a list of data rows, each row must have an id
+ * @param {Object[]} columns - a list of columns, with column have properties:
+ * - key: unique key of column
+ * - dataIndex: key of data
+ * - title: title of column
+ * - render?: ({ value, record, index }) => React.ReactNode
  * @return {CTable} CTable instance
  */
 export default function AppTable({ dataSource, columns }) {
-  const AppRow = withColumns(columns);
+  const AppRow = useCallback(withColumns(columns), [columns]);
 
   return (
     <CTable className="table table-dark table-hover table-striped table-responsive">
