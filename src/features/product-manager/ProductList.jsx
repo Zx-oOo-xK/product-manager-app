@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { CBadge, CCol, CFormInput, CFormLabel, CFormSelect, CRow, CSpinner } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
@@ -24,15 +24,26 @@ function FilterBar() {
   );
 }
 
+function Loading() {
+  return <div style={{ position: 'relative', padding: '2rem' }}>
+    <CSpinner style={{ position: 'absolute', left: '50%', translate: '-50%' }} />
+  </div>
+}
+
 function AppFormSelect({ pageSelect, setPageSelect, options }) {
   return (
-    <CFormSelect defaultValue={pageSelect} onChange={(e) => setPageSelect(e.target.value)}>
-      {options.map((item) => (
-        <option key={item} value={item} type="number">
-          {item}
-        </option>
-      ))}
-    </CFormSelect>
+    <div className="d-flex align-items-center">
+      <div style={{ marginRight: 10 }}>limit:</div>
+      <div>
+        <CFormSelect defaultValue={pageSelect} onChange={(e) => setPageSelect(e.target.value)}>
+          {options.map((item) => (
+            <option key={item} value={item} type="number">
+              {item}
+            </option>
+          ))}
+        </CFormSelect>
+      </div>
+    </div>
   );
 }
 
@@ -42,8 +53,6 @@ export default function ProductList() {
   const dispatch = useDispatch();
 
   const numberRow = [3, 5, 10];
-  // const columns = ['title', 'price', 'quantity', 'status'];
-
   const columns = [
     {
       title: 'Title',
@@ -71,35 +80,35 @@ export default function ProductList() {
       ),
     },
   ];
+  const [pageSelect, setPageSelect] = useState(numberRow[0]);
   const { products, loading, pagination } = useSelector((state) => state.product);
 
-  const [pageSelect, setPageSelect] = useState(numberRow[0]);
-
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('pageSelect', pageSelect);
-  }, [pageSelect]);
-
-  const onChangePage = (page, pageSize) => {
-    dispatch(getProducts({ page, limit: pageSize }));
+  const onChangePage = (currentPage) => {
+    dispatch(getProducts({ page: currentPage, limit: pageSelect })); // call api
   };
 
-  const [currentPage, goToPage, prev, next] = usePaginate(
-    1,
-    pageSelect,
-    pagination.totalCount,
-    onChangePage
-  );
+  const [
+    currentPage,
+    goToPage,
+    prev,
+    next,
+    breakPrev,
+    breakNext,
+    jumpPrev,
+    jumpNext] = usePaginate(
+      1,
+      pageSelect,
+      pagination.totalCount,
+      onChangePage
+    );
 
   return (
     <div>
       <FilterBar />
 
-      {loading ? (
-        <div style={{ position: 'relative', padding: '2rem' }}>
-          <CSpinner style={{ position: 'absolute', left: '50%', translate: '-50%' }} />
-        </div>
-      ) : (
+      {loading ?
+        <Loading />
+        :
         <>
           <AppTable dataSource={products} columns={columns} />
 
@@ -109,23 +118,21 @@ export default function ProductList() {
               prev={prev}
               next={next}
               goToPage={goToPage}
-              pages={pagination.totalCount / pageSelect}
+              breakPrev={breakPrev}
+              breakNext={breakNext}
+              jumpPrev={jumpPrev}
+              jumpNext={jumpNext}
+              pages={Math.ceil(pagination.totalCount / pageSelect)}
               maxDisplayNodePagination={DEFAULT_MAX_DISPLAY_PAGINATION_NODE}
             />
 
-            <div className="d-flex align-items-center">
-              <div style={{ marginRight: 10 }}>limit:</div>
-              <div>
-                <AppFormSelect
-                  pageSelect={pageSelect}
-                  setPageSelect={setPageSelect}
-                  options={numberRow}
-                />
-              </div>
-            </div>
+            <AppFormSelect
+              pageSelect={pageSelect}
+              setPageSelect={setPageSelect}
+              options={numberRow} />
           </div>
         </>
-      )}
-    </div>
+      }
+    </div >
   );
 }
