@@ -13,7 +13,7 @@ import { Controller } from 'react-hook-form';
  * - rules: the rules for the input (see https://react-hook-form.com/api/useform/register)
  * @returns the CFormInput with validation
  */
-export default function ValidatedInput({ control, name, type, label, rules }) {
+export default function ValidatedInput({ control, name, type, label, rules, required }) {
   return (
     <Controller
       name={name}
@@ -30,6 +30,7 @@ export default function ValidatedInput({ control, name, type, label, rules }) {
           type={type}
           invalid={!!error}
           feedbackInvalid={error?.message}
+          required={required}
         />
       )}
     />

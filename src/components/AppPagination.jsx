@@ -49,8 +49,8 @@ export default function AppPagination({
   jumpPrev,
   jumpNext,
 }) {
-  const offset = ValueInRange(activePage - 2, 0, pages - maxDisplayNodePagination + 1);
-  const displayBreakPrev = offset > 1
+  const offset = ValueInRange(activePage - 3, 0, pages - maxDisplayNodePagination + 1);
+  const displayBreakPrev = offset > 0
   const displayBreakNext = offset < pages - maxDisplayNodePagination
   const list = Array.from({ length: pages }, (_, i) => i + 1);
   const nodePagination = list.slice(offset, offset + maxDisplayNodePagination);

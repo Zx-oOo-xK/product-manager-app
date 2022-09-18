@@ -1,8 +1,11 @@
 import { CBadge } from '@coreui/react';
+// eslint-disable-next-line no-unused-vars
 import AppTable from 'components/AppTable';
 import React from 'react';
+import ProductForm from './ProductForm';
 
 export default function ProductDashboard() {
+  // eslint-disable-next-line no-unused-vars
   const columns = [
     {
       title: 'Name',
@@ -40,6 +43,7 @@ export default function ProductDashboard() {
     },
   ];
 
+  // eslint-disable-next-line no-unused-vars
   const dataSource = [
     {
       id: '1',
@@ -59,7 +63,9 @@ export default function ProductDashboard() {
 
   return (
     <div>
-      <AppTable dataSource={dataSource} columns={columns} />
+      {/* <AppTable dataSource={dataSource} columns={columns} /> */}
+      <ProductForm />
+
     </div>
   );
 }

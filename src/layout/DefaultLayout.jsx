@@ -12,7 +12,7 @@ export default function DefaultLayout() {
   };
 
   return (
-    <div>
+    <div style={{ display: 'block' }}>
       <AppSidebar visible={toggle} toggle={toggleSidebar} />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
         <AppHeader toggle={toggleSidebar} />

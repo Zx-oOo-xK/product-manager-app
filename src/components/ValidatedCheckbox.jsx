@@ -12,7 +12,7 @@ import { Controller } from 'react-hook-form';
  * - rules: the rules for the input (see https://react-hook-form.com/api/useform/register)
  * @returns the CFormCheck with validation
  */
-export default function ValidatedCheck({ control, name, label, rules }) {
+export default function ValidatedCheckbox({ control, name, label, rules, required }) {
   return (
     <Controller
       name={name}
@@ -28,6 +28,7 @@ export default function ValidatedCheck({ control, name, label, rules }) {
           ref={ref}
           invalid={!!error}
           feedbackInvalid={error?.message}
+          required={required}
         />
       )}
     />

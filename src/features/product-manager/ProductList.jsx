@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
-import { CBadge, CCol, CFormInput, CFormLabel, CFormSelect, CRow, CSpinner } from '@coreui/react';
+import { CBadge, CCol, CFormInput, CFormLabel, CFormSelect, CRow, CSpinner, CButton } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useDispatch, useSelector } from 'react-redux';
 import AppTable from 'components/AppTable';
 import usePaginate from 'hooks/usePaginate';
 import AppPagination from 'components/AppPagination';
-import { getProducts } from './productSlice';
+import { createProduct, deleteProduct, getProducts } from './productSlice';
 
 function FilterBar() {
   return (
@@ -47,39 +47,63 @@ function AppFormSelect({ pageSelect, setPageSelect, options }) {
   );
 }
 
+const columns = (dispatch) => [
+  {
+    title: 'Title',
+    dataIndex: 'title',
+    key: 'title',
+  },
+  {
+    title: 'Description',
+    dataIndex: 'description',
+    key: 'description',
+  },
+  {
+    title: 'Price',
+    dataIndex: 'price',
+    key: 'price',
+  },
+  {
+    title: 'Quantity',
+    dataIndex: 'quantity',
+    key: 'quantity',
+  },
+  {
+    title: 'User id',
+    dataIndex: 'user_id',
+    key: 'user_id',
+  },
+  {
+    title: 'Active',
+    dataIndex: 'is_active',
+    key: 'is_active',
+    render: (val) => (
+      <CBadge color={val ? 'success' : 'danger'} shape="rounded-pill">
+        {val ? 'Active' : 'Inactive'}
+      </CBadge>
+    ),
+  },
+  {
+    title: 'Action',
+    dataIndex: 'action',
+    key: 'action',
+    render: (data) => (
+      <div className='d-flex' style={{ gap: '.3rem' }}>
+        <CButton onClick={() => { dispatch(deleteProduct(data.id)) }} className='btn btn-info text-light d-inline'><FontAwesomeIcon icon={solid('trash-can')} /></CButton>
+        <CButton className='btn btn-danger text-light d-inline'><FontAwesomeIcon icon={solid('pen-to-square')} /></CButton>
+      </div>
+    )
+  }
+];
+
 const DEFAULT_MAX_DISPLAY_PAGINATION_NODE = 5;
 
 export default function ProductList() {
+
   const dispatch = useDispatch();
 
   const numberRow = [3, 5, 10];
-  const columns = [
-    {
-      title: 'Title',
-      dataIndex: 'title',
-      key: 'title',
-    },
-    {
-      title: 'Price',
-      dataIndex: 'price',
-      key: 'price',
-    },
-    {
-      title: 'Quantity',
-      dataIndex: 'quantity',
-      key: 'quantity',
-    },
-    {
-      title: 'Active',
-      dataIndex: 'is_active',
-      key: 'is_active',
-      render: (val) => (
-        <CBadge color={val ? 'success' : 'danger'} shape="rounded-pill">
-          {val ? 'Active' : 'Inactive'}
-        </CBadge>
-      ),
-    },
-  ];
+
   const [pageSelect, setPageSelect] = useState(numberRow[0]);
   const { products, loading, pagination } = useSelector((state) => state.product);
 
@@ -102,15 +126,26 @@ export default function ProductList() {
       onChangePage
     );
 
+  const newProduct = {
+    title: "p10",
+    description: "",
+    price: 9000,
+    quantity: 32,
+    is_active: true,
+    user_id: 1
+  }
+
   return (
     <div>
       <FilterBar />
+
+      <CButton onClick={() => { dispatch(createProduct(newProduct)) }} className='btn btn-primary' >add product</CButton>
 
       {loading ?
         <Loading />
         :
         <>
-          <AppTable dataSource={products} columns={columns} />
+          <AppTable dataSource={products} columns={columns(dispatch)} />
 
           <div className="d-flex justify-content-between">
             <AppPagination
@@ -133,6 +168,7 @@ export default function ProductList() {
           </div>
         </>
       }
+
     </div >
   );
 }

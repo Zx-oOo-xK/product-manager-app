@@ -23,7 +23,7 @@ export function withColumns(cols) {
     return (
       <CTableRow>
         {cols.map((col) => (
-          <CTableDataCell key={`${col.key}_${data.id}`}>
+          <CTableDataCell key={`${col.key}_${data.id}`} className="align-middle" style={{ color: '#FFF' }}>
             {col.render ? col.render(data) : data[col.dataIndex]}
           </CTableDataCell>
         ))}
@@ -47,11 +47,11 @@ export default function AppTable({ dataSource, columns }) {
   const AppRow = useCallback(withColumns(columns), [columns]);
 
   return (
-    <CTable className="table table-dark table-hover table-striped table-responsive">
-      <CTableHead className="text-light bg-dark">
+    <CTable className="table table-dark table-hover table-responsive col-sm-12 col-6">
+      <CTableHead className="text-light">
         <CTableRow>
           {columns.map((col) => (
-            <CTableHeaderCell scope="col" key={col.key}>
+            <CTableHeaderCell scope="col" key={col.key} className='bg-info'>
               {col.title}
             </CTableHeaderCell>
           ))}
