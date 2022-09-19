@@ -40,7 +40,7 @@ export default function usePaginate(page, pageSize, totalRows, onChangePage) {
   useEffect(() => {
     const p1 = valueInRange(current, minPage, maxPage)
     setCurrent(p1)
-    if (p1 !== currentPage) {
+    if (p1 !== currentPage || pageSize) {
       setCurrentPage(p1)
       onChangePage(p1, pageSize)
     }

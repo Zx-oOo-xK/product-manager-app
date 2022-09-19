@@ -13,13 +13,14 @@ const formRules = {
         required: 'Please provide a valid title'
     },
     price: {
-        required: 'Please provide a valid price'
+        required: 'Please provide a valid price',
+        min: 1,
+        max: 9999999999
     },
     quantity: {
-        required: 'Please provide a valid quantity'
-    },
-    is_active: {
-
+        required: 'Please provide a valid quantity',
+        min: 1,
+        max: 100000
     },
     user_id: {
         required: 'Please provide a valid user id'

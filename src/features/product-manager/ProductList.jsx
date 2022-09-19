@@ -1,29 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { CBadge, CCol, CFormInput, CFormLabel, CFormSelect, CRow, CSpinner, CButton } from '@coreui/react';
+import { CBadge, CFormSelect, CSpinner, CButton } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useDispatch, useSelector } from 'react-redux';
 import AppTable from 'components/AppTable';
 import usePaginate from 'hooks/usePaginate';
 import AppPagination from 'components/AppPagination';
-import { Link } from 'react-router-dom';
+import { Link, Outlet } from 'react-router-dom';
 import { deleteProduct, getProducts } from './productSlice';
-
-function FilterBar() {
-  return (
-    <div>
-      <CRow className="mb-3 d-flex align-items-center">
-        <CFormLabel className="col-sm-1 col-form-label">Filter:</CFormLabel>
-        <CCol>
-          <CFormInput type="text" placeholder="Type sring..." />
-        </CCol>
-        <CCol>
-          <FontAwesomeIcon icon={solid('filter')} />
-        </CCol>
-      </CRow>
-    </div>
-  );
-}
 
 function Loading() {
   return <div style={{ position: 'relative', padding: '2rem' }}>
@@ -88,8 +72,12 @@ const columns = (dispatch) => [
     key: 'action',
     render: (data) => (
       <div className='d-flex justify-content-center' style={{ gap: '.3rem' }}>
-        <Link to={`${data.id}/update`} className='text-light'><CButton className='btn btn-info text-light d-inline'><FontAwesomeIcon icon={solid('pen-to-square')} /></CButton></Link>
-        <CButton onClick={() => { dispatch(deleteProduct(data.id)) }} className='btn btn-danger text-light d-inline'><FontAwesomeIcon icon={solid('trash-can')} /></CButton>
+        <Link to={`${data.id}/update`} className='text-light btn btn-info text-light d-inline'>
+          <FontAwesomeIcon icon={solid('pen-to-square')} />
+        </Link>
+        <CButton onClick={() => { dispatch(deleteProduct(data.id)) }} className='btn btn-danger text-light d-inline'>
+          <FontAwesomeIcon icon={solid('trash-can')} />
+        </CButton>
       </div>
     )
   }
@@ -98,12 +86,11 @@ const columns = (dispatch) => [
 const DEFAULT_MAX_DISPLAY_PAGINATION_NODE = 5;
 
 export default function ProductList() {
-
   const dispatch = useDispatch();
 
   const numberRow = [3, 5, 10];
-
   const [pageSelect, setPageSelect] = useState(numberRow[0]);
+
   const { products, loading, pagination, updateSuccess } = useSelector((state) => state.product);
 
   const onChangePage = (currentPage) => {
@@ -131,12 +118,8 @@ export default function ProductList() {
 
   return (
     <div>
-      <FilterBar />
-
-
       <Link to='new' className='btn btn-primary text-light text-decoration-none'><FontAwesomeIcon icon={solid('plus')} /></Link>
 
-      {/* TODO : split */}
       <div style={{ width: 'max-centent' }}>
         {
           loading ?
@@ -168,6 +151,7 @@ export default function ProductList() {
         }
       </div>
 
+      <Outlet />
     </div >
   );
 }
