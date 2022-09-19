@@ -3,12 +3,8 @@ import React, { useEffect } from 'react';
 export default function ProductDashboard() {
   useEffect(() => {
     // eslint-disable-next-line no-console
-    console.log('dashboard')
-  }, [])
+    console.log('dashboard');
+  }, []);
 
-  return (
-    <div>
-      dashboard
-    </div>
-  );
+  return <div>dashboard</div>;
 }

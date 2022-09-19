@@ -9,7 +9,7 @@ const ProductForm = React.lazy(() => import('./ProductForm'));
 export default function ProductRouter() {
   return (
     <Routes>
-      <Route path="/" element={withSuspense(ProductList)()} >
+      <Route path="/" element={withSuspense(ProductList)()}>
         <Route path="/new" element={withSuspense(ProductForm)()} />
         <Route path="/:id/update" element={withSuspense(ProductForm)()} />
       </Route>

@@ -19,35 +19,35 @@ import { useEffect, useState } from 'react';
  */
 export default function usePaginate(page, pageSize, totalRows, onChangePage) {
   const [currentPage, setCurrentPage] = useState(page);
-  const minPage = 1
-  const maxPage = Math.ceil(totalRows / pageSize)
+  const minPage = 1;
+  const maxPage = Math.ceil(totalRows / pageSize);
 
   /**
- * ValueInRange make sure a number is in a range
- * 
- * @param {number} value
- * @param {number} min
- * @param {number} max
- * @return value is already in range
- */
+   * ValueInRange make sure a number is in a range
+   *
+   * @param {number} value
+   * @param {number} min
+   * @param {number} max
+   * @return value is already in range
+   */
   const valueInRange = (value, min, max) => {
     if (value < min) return min;
     if (value > max) return max;
     return value;
-  }
-  const [current, setCurrent] = useState(currentPage)
+  };
+  const [current, setCurrent] = useState(currentPage);
 
   useEffect(() => {
-    const p1 = valueInRange(current, minPage, maxPage)
-    setCurrent(p1)
+    const p1 = valueInRange(current, minPage, maxPage);
+    setCurrent(p1);
     if (p1 !== currentPage || pageSize) {
-      setCurrentPage(p1)
-      onChangePage(p1, pageSize)
+      setCurrentPage(p1);
+      onChangePage(p1, pageSize);
     }
   }, [current, pageSize]);
 
   const prev = () => {
-    setCurrent(current - 1)
+    setCurrent(current - 1);
   };
 
   const next = () => {
@@ -59,29 +59,20 @@ export default function usePaginate(page, pageSize, totalRows, onChangePage) {
   };
 
   const breakPrev = () => {
-    setCurrent(current - 5)
-  }
+    setCurrent(current - 5);
+  };
 
   const breakNext = () => {
-    setCurrent(current + 5)
-  }
+    setCurrent(current + 5);
+  };
 
   const jumpPrev = () => {
-    setCurrent(current - 10)
-  }
+    setCurrent(current - 10);
+  };
 
   const jumpNext = () => {
-    setCurrent(current + 10)
-  }
+    setCurrent(current + 10);
+  };
 
-  return [
-    currentPage,
-    goToPage,
-    prev,
-    next,
-    breakPrev,
-    breakNext,
-    jumpPrev,
-    jumpNext,
-  ];
+  return [currentPage, goToPage, prev, next, breakPrev, breakNext, jumpPrev, jumpNext];
 }

@@ -14,24 +14,24 @@ import { Controller } from 'react-hook-form';
  * @returns the CFormInput with validation
  */
 export default function ValidatedTextarea({ control, name, label, rules, required }) {
-    return (
-        <Controller
-            name={name}
-            rules={rules}
-            control={control}
-            render={({ field: { onChange, onBlur, value, ref }, fieldState: { error } }) => (
-                <CFormTextarea
-                    label={label}
-                    onChange={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    name={name}
-                    ref={ref}
-                    invalid={!!error}
-                    feedbackInvalid={error?.message}
-                    required={required}
-                />
-            )}
+  return (
+    <Controller
+      name={name}
+      rules={rules}
+      control={control}
+      render={({ field: { onChange, onBlur, value, ref }, fieldState: { error } }) => (
+        <CFormTextarea
+          label={label}
+          onChange={onChange}
+          onBlur={onBlur}
+          value={value}
+          name={name}
+          ref={ref}
+          invalid={!!error}
+          feedbackInvalid={error?.message}
+          required={required}
         />
-    );
+      )}
+    />
+  );
 }
