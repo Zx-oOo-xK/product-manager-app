@@ -1,5 +1,7 @@
 import React from 'react';
 import { CPagination, CPaginationItem } from '@coreui/react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 /**
  * PaginationNode display node for pagination
@@ -54,12 +56,12 @@ export default function AppPagination({
   const displayBreakNext = offset < pages - maxDisplayNodePagination
   const list = Array.from({ length: pages }, (_, i) => i + 1);
   const nodePagination = list.slice(offset, offset + maxDisplayNodePagination);
-  const labelPrev = 'prev'
-  const labelNext = 'next'
-  const labelBreakPrev = '...'
-  const labelBreakNext = '...'
-  const labelJumpPrev = '<<'
-  const labelJumpNext = '>>'
+  const labelPrev = <FontAwesomeIcon icon={solid('angle-left')} />
+  const labelNext = <FontAwesomeIcon icon={solid('angle-right')} />
+  const labelBreakPrev = <FontAwesomeIcon icon={solid('ellipsis')} />
+  const labelBreakNext = <FontAwesomeIcon icon={solid('ellipsis')} />
+  const labelJumpPrev = <FontAwesomeIcon icon={solid('angles-left')} />
+  const labelJumpNext = <FontAwesomeIcon icon={solid('angles-right')} />
 
   return (
     <CPagination>
@@ -68,7 +70,7 @@ export default function AppPagination({
       {displayBreakPrev && <CPaginationItem onClick={breakPrev}>{labelBreakPrev}</CPaginationItem>}
       <PaginationNode nodes={nodePagination} activePage={activePage} goToPage={goToPage} />
       {displayBreakNext && <CPaginationItem onClick={breakNext}>{labelBreakNext}</CPaginationItem>}
-      <CPaginationItem onClick={next}>{labelNext}</CPaginationItem>
+      <CPaginationItem onClick={next} role='button'>{labelNext}</CPaginationItem>
       <CPaginationItem onClick={jumpNext}>{labelJumpNext}</CPaginationItem>
     </CPagination>
   );

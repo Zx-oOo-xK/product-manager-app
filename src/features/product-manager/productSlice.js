@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, isFulfilled, isPending, isRejected } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 
 const apiUrl = process.env.REACT_APP_API_URL;
 
@@ -111,14 +111,12 @@ export const getProducts = createAsyncThunk('products/getall', async (pagination
   return value.data;
 });
 
-
-
 const initialState = {
   products: [],
   selectedProduct: {},
   pagination: {},
   loading: false,
-  updateSuccess: null,
+  updateSuccess: false,
   errorMessage: '',
 };
 
@@ -128,50 +126,70 @@ const productSlice = createSlice({
   reducers: {},
   extraReducers(builder) {
     builder
-      .addCase(createProduct.rejected, (state, action) => {
-        state.loading = false;
-        state.errorMessage = action.error.message || 'delete product failed';
-      })
+      // getProducts
       .addCase(getProducts.fulfilled, (state, action) => {
         state.products = action.payload.GetProducts.products;
         state.pagination = action.payload.GetProducts.pagination;
         state.loading = false;
-        state.updateSuccess = true;
-        state.errorMessage = '';
+        state.updateSuccess = false;
+      })
+      .addCase(getProducts.pending, (state) => {
+        state.loading = true;
       })
       .addCase(getProducts.rejected, (state, action) => {
         state.loading = false;
         state.products = [];
         state.errorMessage = action.error.message || 'get product failed';
       })
+
+      // getProduct
       .addCase(getProduct.fulfilled, (state, action) => {
         state.selectedProduct = action.payload
         state.loading = false;
-        state.updateSuccess = true;
-        state.errorMessage = '';
+      })
+      .addCase(getProduct.pending, (state) => {
+        state.loading = true
       })
       .addCase(getProduct.rejected, (state, action) => {
         state.errorMessage = action.error.message || 'get product failed';
       })
+
+      // createProduct
+      .addCase(createProduct.fulfilled, (state) => {
+        state.loading = false;
+        state.updateSuccess = true
+      })
+      .addCase(createProduct.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(createProduct.rejected, (state, action) => {
+        state.loading = false;
+        state.errorMessage = action.error.message || 'delete product failed';
+      })
+
+      // updateProduct
+      .addCase(updateProduct.fulfilled, (state) => {
+        state.updateSuccess = true
+        state.loading = false
+      })
+      .addCase(updateProduct.pending, (state) => {
+        state.loading = true
+      })
       .addCase(updateProduct.rejected, (state, action) => {
         state.errorMessage = action.error.message || 'update product failed';
+      })
+
+      // deleteProduct
+      .addCase(deleteProduct.fulfilled, (state) => {
+        state.loading = false;
+        state.updateSuccess = true
+      })
+      .addCase(deleteProduct.pending, (state) => {
+        state.loading = false
       })
       .addCase(deleteProduct.rejected, (state, action) => {
         state.errorMessage = action.error.message || 'delete product failed';
       })
-      .addMatcher(isFulfilled(updateProduct, deleteProduct, createProduct), (state) => {
-        state.updateSuccess = true;
-        state.loading = false
-      })
-      .addMatcher(isRejected(createProduct, getProducts, deleteProduct, updateProduct, getProduct), (state) => {
-        state.loading = false
-        state.updateSuccess = null;
-      })
-      .addMatcher(isPending(createProduct, getProducts, deleteProduct, updateProduct, getProduct), (state) => {
-        state.loading = true;
-        state.errorMessage = '';
-        state.updateSuccess = null;
-      });
   },
 });
 

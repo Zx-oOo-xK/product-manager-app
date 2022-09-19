@@ -35,51 +35,43 @@ export default function usePaginate(page, pageSize, totalRows, onChangePage) {
     if (value > max) return max;
     return value;
   }
+  const [current, setCurrent] = useState(currentPage)
 
   useEffect(() => {
-    const current = valueInRange(currentPage, 1, maxPage)
-    setCurrentPage(current)
-    onChangePage(current, pageSize); // call api
-  }, [currentPage, pageSize]);
+    const p1 = valueInRange(current, minPage, maxPage)
+    setCurrent(p1)
+    if (p1 !== currentPage) {
+      setCurrentPage(p1)
+      onChangePage(p1, pageSize)
+    }
+  }, [current, pageSize]);
 
   const prev = () => {
-    if (currentPage > minPage) {
-      setCurrentPage(currentPage - 1)
-    }
+    setCurrent(current - 1)
   };
 
   const next = () => {
-    if (currentPage < maxPage) {
-      setCurrentPage(currentPage + 1);
-    }
+    setCurrent(current + 1);
   };
 
   const goToPage = (pageNum) => {
-    setCurrentPage(pageNum);
+    setCurrent(pageNum);
   };
 
   const breakPrev = () => {
-    if (currentPage - 5 > minPage) {
-      setCurrentPage(currentPage - 5)
-    }
+    setCurrent(current - 5)
   }
 
   const breakNext = () => {
-    if (currentPage + 5 < maxPage) {
-      setCurrentPage(currentPage + 5)
-    }
+    setCurrent(current + 5)
   }
 
   const jumpPrev = () => {
-    if (currentPage - 10 < maxPage) {
-      setCurrentPage(currentPage - 10)
-    }
+    setCurrent(current - 10)
   }
 
   const jumpNext = () => {
-    if (currentPage + 10 > maxPage) {
-      setCurrentPage(currentPage + 10)
-    }
+    setCurrent(current + 10)
   }
 
   return [

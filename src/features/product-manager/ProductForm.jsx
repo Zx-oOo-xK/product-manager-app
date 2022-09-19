@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { CButton, CCard, CCardBody, CCardHeader, CCol, CForm, CRow, CSpinner } from "@coreui/react";
 import { useForm } from "react-hook-form";
 import ValidatedInput from 'components/ValidatedInput'
@@ -29,9 +29,13 @@ const formRules = {
 export default function ProductForm() {
     const { id } = useParams()
     const dispatch = useDispatch()
+    const [submit, setSubmit] = useState(false)
     const navigate = useNavigate()
-
     const { selectedProduct, loading, updateSuccess } = useSelector((state) => state.product)
+
+    useEffect(() => {
+        if (submit) navigate(-1)
+    }, [updateSuccess])
 
     const { handleSubmit, control, setValue } = useForm({
         defaultValues: {
@@ -40,13 +44,15 @@ export default function ProductForm() {
             description: "",
             price: 1,
             quantity: 1,
-            is_active: true,
+            is_active: false,
             user_id: 1
         }
     })
 
     useEffect(() => {
-        if (id) { dispatch(getProduct(id)) }
+        if (id) {
+            dispatch(getProduct(id))
+        }
     }, [id])
 
     useEffect(() => {
@@ -57,10 +63,6 @@ export default function ProductForm() {
         }
     }, [selectedProduct])
 
-    useEffect(() => {
-        navigate(-1)
-    }, [updateSuccess])
-
     const onSubmit = (data) => {
         if (id) {
             dispatch(updateProduct({ id, data }))
@@ -68,6 +70,12 @@ export default function ProductForm() {
         else {
             dispatch(createProduct(data));
         }
+        setSubmit(true)
+    }
+
+    const styleBase = {
+        cform: { left: "50%", top: '50%', transform: 'translate(-50%, -50%)' },
+        ccardheader: { padding: '0.5rem 1rem', fontWeight: '600', color: '#777' },
     }
 
     return (
@@ -75,9 +83,9 @@ export default function ProductForm() {
             {loading ?
                 <CSpinner />
                 :
-                <CForm onSubmit={handleSubmit(onSubmit)} validated className="col-sm-6 col-10 position-absolute" style={{ left: "50%", top: '50%', transform: 'translate(-50%, -50%)' }}>
+                <CForm onSubmit={handleSubmit(onSubmit)} validated className="col-sm-6 col-10 position-absolute" style={styleBase.cform}>
                     <CCard>
-                        <CCardHeader><div style={{ padding: '0.5rem 1rem', fontWeight: '600', color: '#777' }}>{id ? 'Update Product' : 'Create Product'}</div></CCardHeader>
+                        <CCardHeader><div style={styleBase.ccardheader}>{id ? `Update Product [${id}]` : 'Create Product'}</div></CCardHeader>
                         <CCardBody className="m-3">
                             <ValidatedInput control={control} name='title' type='text' label='Title' rules={formRules.title} required />
                             <ValidatedTextarea control={control} name='description' label="description" />
@@ -93,7 +101,7 @@ export default function ProductForm() {
                                 <ValidatedCheckbox control={control} name='is_active' label='active' />
                             </div>
                             <div className="d-flex align-items-center justify-content-end">
-                                <CButton className="m-3 btn btn-secondary">cancel</CButton>
+                                <CButton className="m-3 btn btn-secondary" onClick={() => navigate(-1)}>cancel</CButton>
                                 <CButton type="submit">submit</CButton>
                             </div>
                         </CCardBody>
