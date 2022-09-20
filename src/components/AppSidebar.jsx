@@ -73,14 +73,21 @@ const forms = [
   },
 ];
 
-export default function AppSidebar({ visible, toggle }) {
+/**
+ * AppSidebar is a component that displays a list of menu link
+ *
+ * @param {bool} visible is parameter toggle display sidebar menu
+ * @param {function} setVisible is parameter set toggle for sidebar menu
+ * @returns component sidebar menu
+ */
+export default function AppSidebar({ visible, setVisible }) {
   const toggleSidebar = visible ? 'sidebar sidebar-fixed' : 'sidebar sidebar-fixed hide';
 
   return (
     <CSidebar className={toggleSidebar}>
       <CSidebarBrand className="d-flex justify-content-around">
         Sidebar Brand
-        <CCloseButton white onClick={toggle} />
+        <CCloseButton white onClick={setVisible} />
       </CSidebarBrand>
       <CSidebarNav>
         <CNavItem href="/dashboard" className="d-flex justify-content-start align-items-center">

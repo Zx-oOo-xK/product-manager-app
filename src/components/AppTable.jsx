@@ -23,7 +23,11 @@ export function withColumns(cols) {
     return (
       <CTableRow>
         {cols.map((col) => (
-          <CTableDataCell key={`${col.key}_${data.id}`} className="align-middle p-3" style={{ color: '#FFF' }}>
+          <CTableDataCell
+            key={`${col.key}_${data.id}`}
+            className="align-middle p-3"
+            style={{ color: '#FFF' }}
+          >
             {col.render ? col.render(data) : data[col.dataIndex]}
           </CTableDataCell>
         ))}
@@ -51,7 +55,7 @@ export default function AppTable({ dataSource, columns }) {
       <CTableHead className="text-light">
         <CTableRow>
           {columns.map((col) => (
-            <CTableHeaderCell scope="col" key={col.key} className='bg-info p-3'>
+            <CTableHeaderCell scope="col" key={col.key} className="bg-info p-3">
               {col.title}
             </CTableHeaderCell>
           ))}

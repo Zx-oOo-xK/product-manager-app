@@ -4,7 +4,7 @@ const apiUrl = process.env.REACT_APP_API_URL;
 
 /**
  * createProduct is a method that create product
- * 
+ *
  * @param {Object} - data with following properties:
  * - title: name of product
  * - description: information of product
@@ -17,14 +17,14 @@ export const createProduct = createAsyncThunk('products/create', async (data) =>
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
 });
 
 /**
  * updateProduct is a method that create product
- * 
- * @param {number} - id of product 
+ *
+ * @param {number} - id of product
  * @param {Object} - data with following properties:
  * - title: name of product
  * - description: information of product
@@ -37,7 +37,7 @@ export const updateProduct = createAsyncThunk('products/update', async ({ id, da
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   });
 });
 
@@ -131,10 +131,11 @@ const productSlice = createSlice({
         state.products = action.payload.GetProducts.products;
         state.pagination = action.payload.GetProducts.pagination;
         state.loading = false;
-        state.updateSuccess = false;
       })
       .addCase(getProducts.pending, (state) => {
         state.loading = true;
+        state.products = [];
+        state.errorMessage = '';
       })
       .addCase(getProducts.rejected, (state, action) => {
         state.loading = false;
@@ -144,52 +145,65 @@ const productSlice = createSlice({
 
       // getProduct
       .addCase(getProduct.fulfilled, (state, action) => {
-        state.selectedProduct = action.payload
         state.loading = false;
+        state.selectedProduct = action.payload;
       })
       .addCase(getProduct.pending, (state) => {
-        state.loading = true
+        state.loading = true;
+        state.selectedProduct = {};
+        state.errorMessage = '';
       })
       .addCase(getProduct.rejected, (state, action) => {
+        state.loading = false;
         state.errorMessage = action.error.message || 'get product failed';
       })
 
       // createProduct
       .addCase(createProduct.fulfilled, (state) => {
         state.loading = false;
-        state.updateSuccess = true
+        state.updateSuccess = true;
       })
       .addCase(createProduct.pending, (state) => {
         state.loading = true;
+        state.errorMessage = '';
+        state.updateSuccess = null;
       })
       .addCase(createProduct.rejected, (state, action) => {
         state.loading = false;
         state.errorMessage = action.error.message || 'delete product failed';
+        state.updateSuccess = false;
       })
 
       // updateProduct
       .addCase(updateProduct.fulfilled, (state) => {
-        state.updateSuccess = true
-        state.loading = false
+        state.loading = false;
+        state.updateSuccess = true;
       })
       .addCase(updateProduct.pending, (state) => {
-        state.loading = true
+        state.loading = true;
+        state.updateSuccess = null;
+        state.errorMessage = '';
       })
       .addCase(updateProduct.rejected, (state, action) => {
+        state.loading = false;
         state.errorMessage = action.error.message || 'update product failed';
+        state.updateSuccess = false;
       })
 
       // deleteProduct
       .addCase(deleteProduct.fulfilled, (state) => {
         state.loading = false;
-        state.updateSuccess = true
+        state.updateSuccess = true;
       })
       .addCase(deleteProduct.pending, (state) => {
-        state.loading = false
+        state.loading = true;
+        state.errorMessage = '';
       })
       .addCase(deleteProduct.rejected, (state, action) => {
+        state.loading = false;
         state.errorMessage = action.error.message || 'delete product failed';
-      })
+        state.updateSuccess = false;
+      });
   },
 });
 
