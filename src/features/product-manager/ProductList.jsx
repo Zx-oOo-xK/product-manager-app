@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CBadge, CFormSelect, CSpinner, CButton } from '@coreui/react';
+import { CBadge, CSpinner, CButton } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useDispatch, useSelector } from 'react-redux';
@@ -7,29 +7,13 @@ import AppTable from 'components/AppTable';
 import usePaginate from 'hooks/usePaginate';
 import AppPagination from 'components/AppPagination';
 import { Link, Outlet } from 'react-router-dom';
+import AppFormSelect from 'components/AppFormSelect';
 import { deleteProduct, getProducts } from './productSlice';
 
 function Loading() {
   return (
     <div style={{ position: 'relative', padding: '2rem' }}>
       <CSpinner style={{ position: 'absolute', left: '50%', translate: '-50%' }} />
-    </div>
-  );
-}
-
-function AppFormSelect({ pageSelect, setPageSelect, options }) {
-  return (
-    <div className="d-flex align-items-center">
-      <div style={{ marginRight: 10 }}>limit:</div>
-      <div>
-        <CFormSelect defaultValue={pageSelect} onChange={(e) => setPageSelect(e.target.value)}>
-          {options.map((item) => (
-            <option key={item} value={item} type="number">
-              {item}
-            </option>
-          ))}
-        </CFormSelect>
-      </div>
     </div>
   );
 }
