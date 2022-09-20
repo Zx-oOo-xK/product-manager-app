@@ -121,34 +121,40 @@ export default function ProductList() {
         <FontAwesomeIcon icon={solid('plus')} />
       </Link>
 
-      <div style={{ width: 'max-centent' }}>
+      <div>
         {loading ? (
           <Loading />
         ) : (
-          <>
-            <AppTable dataSource={products} columns={columns} />
+          <div style={{ border: '1px solid black' }}>
+            <div style={{ margin: 'auto' }}>
+              <div style={{ display: 'block' }}>
+                <AppTable dataSource={products} columns={columns} />
+              </div>
 
-            <div className="d-flex justify-content-between">
-              <AppPagination
-                activePage={currentPage}
-                prev={prev}
-                next={next}
-                goToPage={goToPage}
-                breakPrev={breakPrev}
-                breakNext={breakNext}
-                jumpPrev={jumpPrev}
-                jumpNext={jumpNext}
-                pages={Math.ceil(pagination.totalCount / pageSize)}
-                maxDisplayNodePagination={DEFAULT_MAX_DISPLAY_PAGINATION_NODE}
-              />
+              <div>
+                <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+                  <AppPagination
+                    activePage={currentPage}
+                    prev={prev}
+                    next={next}
+                    goToPage={goToPage}
+                    breakPrev={breakPrev}
+                    breakNext={breakNext}
+                    jumpPrev={jumpPrev}
+                    jumpNext={jumpNext}
+                    pages={Math.ceil(pagination.totalCount / pageSize)}
+                    maxDisplayNodePagination={DEFAULT_MAX_DISPLAY_PAGINATION_NODE}
+                  />
 
-              <AppFormSelect
-                pageSelect={pageSize}
-                setPageSelect={setPageSelect}
-                options={pageSizeOptions}
-              />
+                  <AppFormSelect
+                    pageSelect={pageSize}
+                    setPageSelect={setPageSelect}
+                    options={pageSizeOptions}
+                  />
+                </div>
+              </div>
             </div>
-          </>
+          </div>
         )}
       </div>
 

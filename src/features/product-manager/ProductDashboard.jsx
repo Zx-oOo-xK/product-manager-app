@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 export default function ProductDashboard() {
-  useEffect(() => {
-    // eslint-disable-next-line no-console
-    console.log('dashboard');
-  }, []);
-
-  return <div>dashboard</div>;
+  return (
+    <div className="dashboard">
+      <span>dashboard</span>
+    </div>
+  );
 }

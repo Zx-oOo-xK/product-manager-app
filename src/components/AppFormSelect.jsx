@@ -11,17 +11,15 @@ import React from 'react';
  */
 export default function AppFormSelect({ pageSelect, setPageSelect, options }) {
   return (
-    <div className="d-flex align-items-center">
-      <div style={{ marginRight: 10 }}>limit:</div>
-      <div>
-        <CFormSelect defaultValue={pageSelect} onChange={(e) => setPageSelect(e.target.value)}>
-          {options.map((item) => (
-            <option key={item} value={item} type="number">
-              {item}
-            </option>
-          ))}
-        </CFormSelect>
-      </div>
+    <div className="AppFormSelect">
+      <span>limit:</span>
+      <CFormSelect defaultValue={pageSelect} onChange={(e) => setPageSelect(e.target.value)}>
+        {options.map((item) => (
+          <option key={item} value={item} type="number">
+            {item}
+          </option>
+        ))}
+      </CFormSelect>
     </div>
   );
 }

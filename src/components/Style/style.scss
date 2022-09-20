@@ -1,0 +1,32 @@
+.AppPagination > dl, ol, ul {
+    margin: 0
+}
+
+.AppFormSelect { 
+    display: flex;
+    align-items: center;
+    width: max-content;
+    span {
+        padding-right: 1rem;
+    }
+}
+
+.AppTable {
+    display: block;
+    width: 100%;
+    overflow: auto;
+
+    --cui-table-color: rgba(255, 255, 255, 0.87);
+    --cui-table-bg: #001427;
+    --cui-table-border-color: rgba(93, 106, 126, 0.987);
+    --cui-table-striped-bg: rgba(86, 99, 120, 0.9935);
+    --cui-table-striped-color: rgba(255, 255, 255, 0.87);
+    --cui-table-active-bg: rgba(93, 106, 126, 0.987);
+    --cui-table-active-color: rgba(255, 255, 255, 0.87);
+    --cui-table-hover-bg: rgba(102, 115, 134, 0.548);
+    --cui-table-hover-color: rgba(255, 255, 255, 0.87);
+    color: var(--cui-table-color);
+    border-color: var(--cui-table-border-color);
+
+    border-radius: 8px;
+}

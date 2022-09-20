@@ -2,6 +2,7 @@ import React from 'react';
 import { CPagination, CPaginationItem } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import './Style/style.scss';
 
 /**
  * PaginationNode display node for pagination
@@ -81,7 +82,7 @@ export default function AppPagination({
   const labelJumpNext = <FontAwesomeIcon icon={solid('angles-right')} />;
 
   return (
-    <CPagination>
+    <CPagination className="AppPagination" style={{ margin: 0 }}>
       <CPaginationItem onClick={jumpPrev}>{labelJumpPrev}</CPaginationItem>
       <CPaginationItem onClick={prev}>{labelPrev}</CPaginationItem>
       {displayBreakPrev && <CPaginationItem onClick={breakPrev}>{labelBreakPrev}</CPaginationItem>}

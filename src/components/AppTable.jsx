@@ -7,6 +7,7 @@ import {
   CTableHeaderCell,
   CTableRow,
 } from '@coreui/react';
+import './Style/style.scss';
 
 /**
  * withColumns a function that return a table-row component
@@ -26,7 +27,7 @@ export function withColumns(cols) {
           <CTableDataCell
             key={`${col.key}_${data.id}`}
             className="align-middle"
-            style={{ paddingLeft: '1rem' }}
+            style={{ paddingLeft: '1rem', paddingRight: '1rem' }}
           >
             {col.render ? col.render(data) : data[col.dataIndex]}
           </CTableDataCell>
@@ -51,14 +52,7 @@ export default function AppTable({ dataSource, columns }) {
   const AppRow = useCallback(withColumns(columns), [columns]);
 
   return (
-    <CTable
-      className="table table-dark table-hover table-responsive"
-      style={{
-        borderCollapse: 'collapse',
-        borderRadius: '0.4rem',
-        overflow: 'hidden',
-      }}
-    >
+    <CTable className="AppTable table-hover">
       <CTableHead className="text-light">
         <CTableRow>
           {columns.map((col) => (
