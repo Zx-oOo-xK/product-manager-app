@@ -59,17 +59,28 @@ const initColumns = (dispatch) => [
     dataIndex: 'action',
     key: 'action',
     render: (data) => (
-      <div className="d-flex justify-content-center" style={{ gap: '.3rem' }}>
-        <Link to={`${data.id}/update`} className="text-light btn btn-info text-light d-inline">
-          <FontAwesomeIcon icon={solid('pen-to-square')} />
+      <div className="d-flex justify-content-start" style={{ gap: '.3rem' }}>
+        <Link
+          to={`${data.id}/update`}
+          className="text-light btn btn-info text-light d-inline"
+          style={{
+            backgroundColor: '#1e88e5',
+            borderRadius: '.2rem',
+          }}
+        >
+          <FontAwesomeIcon icon={solid('pen-to-square')} style={{ color: '#fff' }} />
         </Link>
         <CButton
           onClick={() => {
             dispatch(deleteProduct(data.id));
           }}
-          className="btn btn-danger text-light d-inline"
+          className="text-light d-inline btn btn-danger"
+          style={{
+            backgroundColor: '#f50057',
+            borderRadius: '.2rem',
+          }}
         >
-          <FontAwesomeIcon icon={solid('trash-can')} />
+          <FontAwesomeIcon icon={solid('trash-can')} style={{ color: '#fff' }} />
         </CButton>
       </div>
     ),
