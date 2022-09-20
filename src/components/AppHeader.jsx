@@ -12,6 +12,12 @@ import React from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
+/**
+ * AppHeader is component header page
+ *
+ * @param {bool} toggle is the toggle sidebar
+ * @returns header component
+ */
 export default function AppHeader({ toggle }) {
   return (
     <div className="wrapper d-flex flex-column bg-light">
