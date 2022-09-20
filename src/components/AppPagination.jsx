@@ -41,6 +41,21 @@ function ValueInRange(value, min, max) {
   return value;
 }
 
+/**
+ * AppPagination is component pagination
+ *
+ * @param {number} activePage is current active page
+ * @param {number} pages is number of active pages
+ * @param {number} maxDisplayNodePagination is maximum display node pagination
+ * @param {function} prev is the previous page
+ * @param {function} next is the next page
+ * @param {function} goToPage is the change page
+ * @param {function} breakPrev is previous page with 5 node pagination
+ * @param {function} breakNext is next page with 5 node pagination
+ * @param {function} jumpPrev is previous page with 10 node pagination
+ * @param {function} jumpNext is next page with 10 node pagination
+ * @returns component pagination
+ */
 export default function AppPagination({
   activePage,
   pages,
