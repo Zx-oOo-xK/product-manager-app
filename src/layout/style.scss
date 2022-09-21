@@ -1,4 +1,4 @@
-@import "@coreui/coreui/scss/coreui";
+@import '@coreui/coreui/scss/coreui';
 
 $transition: true;
 $enable-ltr: true;
@@ -6,7 +6,7 @@ $enable-rtl: true;
 
 .wrapper {
   width: 100%;
-  @include ltr-rtl("padding-left", var(--cui-sidebar-occupy-start, 0));
+  @include ltr-rtl('padding-left', var(--cui-sidebar-occupy-start, 0));
   will-change: auto;
   @include transition(padding 0.15s);
 }

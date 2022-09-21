@@ -1,69 +1,69 @@
 .AppPagination > dl,
 ol,
 ul {
-    margin: 0;
+  margin: 0;
 }
 
 .AppFormSelect {
-    display: flex;
-    align-items: center;
-    width: max-content;
-    span {
-        padding-right: 1rem;
-    }
+  display: flex;
+  align-items: center;
+  width: max-content;
+  span {
+    padding-right: 1rem;
+  }
 }
 
 .AppTable {
-    overflow: auto;
-    max-height: 70vh;
-    border-radius: 14px;
-    margin-bottom: 1rem;
-    table {
-        padding: 0;
-        margin: 0;
-        --cui-table-color: rgba(255, 255, 255, 0.87);
-        --cui-table-bg: #0d003d;
-        --cui-table-border-color: rgba(206, 216, 232, 0.229);
-        --cui-table-striped-bg: rgba(86, 99, 120, 0.9935);
-        --cui-table-striped-color: rgba(255, 255, 255, 0.87);
-        --cui-table-active-bg: rgba(93, 106, 126, 0.987);
-        --cui-table-active-color: rgba(255, 255, 255, 0.87);
-        --cui-table-hover-bg: rgba(255, 255, 255, 0.201);
-        --cui-table-hover-color: rgba(255, 255, 255, 0.87);
+  overflow: auto;
+  max-height: 70vh;
+  border-radius: 14px;
+  margin-bottom: 1rem;
+  table {
+    padding: 0;
+    margin: 0;
+    --cui-table-color: rgba(255, 255, 255, 0.87);
+    --cui-table-bg: #0d003d;
+    --cui-table-border-color: rgba(206, 216, 232, 0.229);
+    --cui-table-striped-bg: rgba(86, 99, 120, 0.9935);
+    --cui-table-striped-color: rgba(255, 255, 255, 0.87);
+    --cui-table-active-bg: rgba(93, 106, 126, 0.987);
+    --cui-table-active-color: rgba(255, 255, 255, 0.87);
+    --cui-table-hover-bg: rgba(255, 255, 255, 0.201);
+    --cui-table-hover-color: rgba(255, 255, 255, 0.87);
 
-        border-collapse: collapse;
-        border-radius: 8px;
-        overflow: hidden;
-        border: 2px solid;
+    border-collapse: collapse;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 2px solid;
 
-        color: var(--cui-table-color);
-        border-color: var(--cui-table-border-color);
-    }
+    color: var(--cui-table-color);
+    border-color: var(--cui-table-border-color);
+  }
 }
 
 /* -------------------ScrollBar------------------ */
 
 ::-webkit-scrollbar {
-    -webkit-appearance: none;
+  -webkit-appearance: none;
 }
 
 ::-webkit-scrollbar:vertical {
-    width: 8px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar:horizontal {
-    height: 8px;
+  height: 8px;
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 8px;
-    border: none;
-    background-color: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  border: none;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #fff;
-    border-radius: 8px;
+  background-color: #fff;
+  border-radius: 8px;
 }
 
 /* -------------------ScrollBar------------------ */
