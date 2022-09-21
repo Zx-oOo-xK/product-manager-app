@@ -37,7 +37,7 @@ export const updateProduct = createAsyncThunk('products/update', async ({ id, da
     method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
-    body: JSON.stringify(data),
+    body: JSON.stringify({ ...data, price: Number(data.price), quantity: Number(data.quantity) }),
   });
 });
 
@@ -131,6 +131,7 @@ const productSlice = createSlice({
         state.products = action.payload.GetProducts.products;
         state.pagination = action.payload.GetProducts.pagination;
         state.loading = false;
+        state.updateSuccess = false;
       })
       .addCase(getProducts.pending, (state) => {
         state.loading = true;
@@ -147,6 +148,7 @@ const productSlice = createSlice({
       .addCase(getProduct.fulfilled, (state, action) => {
         state.loading = false;
         state.selectedProduct = action.payload;
+        state.updateSuccess = false;
       })
       .addCase(getProduct.pending, (state) => {
         state.loading = true;

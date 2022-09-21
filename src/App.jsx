@@ -2,7 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import withSuspense from 'common/withSuspense';
 
-const DefaultLayout = React.lazy(() => import('layout/DefaultLayout'));
+const DefaultLayout = withSuspense(React.lazy(() => import('layout/DefaultLayout')));
 // const ProductRouter = React.lazy(() => import('features/product-manager'));
 // const AuthRouter = React.lazy(() => import('features/auth/router'));
 
@@ -20,7 +20,7 @@ export default function App() {
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/*" element={withSuspense(DefaultLayout)()} />
+          <Route path="/*" element={<DefaultLayout />} />
         </Routes>
       </BrowserRouter>
     </div>

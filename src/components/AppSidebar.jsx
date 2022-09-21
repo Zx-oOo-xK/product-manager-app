@@ -1,77 +1,12 @@
-import React from 'react';
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  CNavGroup,
-  CNavItem,
-  CNavTitle,
-  CSidebar,
-  CSidebarBrand,
-  CSidebarNav,
-  CSidebarToggler,
-  CBadge,
-  CCloseButton,
-} from '@coreui/react';
-
-const themes = [
-  {
-    name: 'Colors',
-    link: '/theme/colors',
-  },
-  {
-    name: 'Typography',
-    link: '/theme/typography',
-  },
-];
-
-const bases = [
-  {
-    name: 'Accordion',
-    link: '/bases/accordion',
-  },
-  {
-    name: 'Breadcrumbs',
-    link: '/bases/breadcrumbs',
-  },
-  {
-    name: 'Cards',
-    link: '/bases/cards',
-  },
-];
-
-const buttons = [
-  {
-    name: 'Buttons',
-    link: 'buttons/buttons',
-  },
-  {
-    name: 'Button Groups',
-    link: 'buttons/buttons-groups',
-  },
-  {
-    name: 'Dropdowns',
-    link: 'buttons/dropdowns',
-  },
-];
-
-const forms = [
-  {
-    name: 'Form Control',
-    link: '/forms/form-control',
-  },
-  {
-    name: 'Select',
-    link: 'forms/select',
-  },
-  {
-    name: 'Checks & Radios',
-    link: 'forms/check-radios',
-  },
-  {
-    name: 'Range',
-    link: 'forms/range',
-  },
-];
+import React, { useState } from 'react';
+import { cilShieldAlt } from '@coreui/icons';
+// import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler, CCloseButton } from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { useDispatch, useSelector } from 'react-redux';
+import { toggle } from 'app/statusSlice';
+// import 'simplebar/dist/simplebar.min.css';
 
 /**
  * AppSidebar is a component that displays a list of menu link
@@ -80,57 +15,28 @@ const forms = [
  * @param {function} setVisible is parameter set toggle for sidebar menu
  * @returns component sidebar menu
  */
-export default function AppSidebar({ visible, setVisible }) {
-  const toggleSidebar = visible ? 'sidebar sidebar-fixed' : 'sidebar sidebar-fixed hide';
+export default function AppSidebar() {
+  const dispatch = useDispatch();
+  const [unfoldable, setUnfoldable] = useState(false);
+  const { showSidebar } = useSelector((state) => state.status);
 
   return (
-    <CSidebar className={toggleSidebar}>
-      <CSidebarBrand className="d-flex justify-content-around">
-        Sidebar Brand
-        <CCloseButton white onClick={setVisible} />
+    <CSidebar
+      position="fixed"
+      unfoldable={unfoldable}
+      visible={showSidebar}
+      onVisibleChange={() => dispatch(toggle())}
+    >
+      <CSidebarBrand className="d-none d-md-flex p-3" to="/">
+        <CIcon className="sidebar-brand-full" icon={cilShieldAlt} height={35} />
+        <CCloseButton white />
       </CSidebarBrand>
       <CSidebarNav>
-        <CNavItem href="/dashboard" className="d-flex justify-content-start align-items-center">
-          <FontAwesomeIcon icon={solid('pen')} />
-          <span style={{ marginLeft: '0.5rem' }}>dashboard</span>
-          <CBadge color="primary ms-auto">NEW</CBadge>
-        </CNavItem>
-        <CNavTitle>THEME</CNavTitle>
-        {themes.map((item) => (
-          <CNavItem
-            href={item.link}
-            key={item.name}
-            className="d-flex justify-content-start align-items-center"
-          >
-            <FontAwesomeIcon icon={solid('pen')} />
-            &nbsp;
-            <span>{item.name}</span>
-          </CNavItem>
-        ))}
-        <CNavTitle>COMPONENTS</CNavTitle>
-        <CNavGroup toggler="Bases">
-          {bases.map((item) => (
-            <CNavItem href={item.link} key={item.name}>
-              {item.name}
-            </CNavItem>
-          ))}
-        </CNavGroup>
-        <CNavGroup toggler="Buttons">
-          {buttons.map((item) => (
-            <CNavItem href={item.link} key={item.name}>
-              {item.name}
-            </CNavItem>
-          ))}
-        </CNavGroup>
-        <CNavGroup toggler="Forms">
-          {forms.map((item) => (
-            <CNavItem href={item.link} key={item.name}>
-              {item.name}
-            </CNavItem>
-          ))}
-        </CNavGroup>
+        {/* <SimpleBar>
+          <AppSidebarNav items={navigation} />
+        // </SimpleBar> */}
       </CSidebarNav>
-      <CSidebarToggler />
+      <CSidebarToggler className="d-none d-lg-flex" onClick={() => setUnfoldable(!unfoldable)} />
     </CSidebar>
   );
 }

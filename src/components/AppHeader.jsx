@@ -1,16 +1,20 @@
+import React from 'react';
+import { cilList } from '@coreui/icons';
 import {
-  CAvatar,
-  CDropdown,
-  CDropdownItem,
-  CDropdownMenu,
-  CDropdownToggle,
-  CNav,
+  CButton,
+  CContainer,
+  CHeader,
+  CHeaderBrand,
+  CHeaderNav,
+  CHeaderToggler,
   CNavItem,
   CNavLink,
 } from '@coreui/react';
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
+import CIcon from '@coreui/icons-react';
+import { useDispatch } from 'react-redux';
+import { toggle } from 'app/statusSlice';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 
 /**
  * AppHeader is component header page
@@ -18,64 +22,51 @@ import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
  * @param {bool} toggle is the toggle sidebar
  * @returns header component
  */
-export default function AppHeader({ toggle }) {
-  return (
-    <div className="wrapper d-flex flex-column bg-light">
-      <div className="header header-sticky mb-4" style={{ padding: '0 1rem' }}>
-        <div className="d-flex align-items-center">
-          <button
-            className="border-0 btn-sm"
-            style={{ width: '2rem', height: '2rem' }}
-            type="button"
-            onClick={toggle}
-          >
-            <FontAwesomeIcon icon={solid('bars')} />
-          </button>
-          <CNav>
-            <CNavItem>
-              <CNavLink href="#" active>
-                Dashboard
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink href="#">Users</CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink href="#">Settings</CNavLink>
-            </CNavItem>
-          </CNav>
-        </div>
+export default function AppHeader() {
+  const dispatch = useDispatch();
 
-        <div className="d-flex align-items-center">
-          <CNav>
-            <CNavItem>
-              <CNavLink>
-                <FontAwesomeIcon icon={solid('bell')} />
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink>
-                <FontAwesomeIcon icon={solid('list')} />
-              </CNavLink>
-            </CNavItem>
-            <CNavItem>
-              <CNavLink>
-                <FontAwesomeIcon icon={solid('envelope')} />
-              </CNavLink>
-            </CNavItem>
-          </CNav>
-          <CDropdown>
-            <CDropdownToggle variant="ghost">
-              <CAvatar src="https://image.winudf.com/v2/image/Y29tLmNvb2wud2FsbHBhcGVyLnBhdHRlcm4ubG9ja3NjcmVlbi5hcHBsb2NrX2ljb25fMTUzMTk4NjQ2Nl8wOTU/icon.png?fakeurl=1&h=240&type=webp" />
-            </CDropdownToggle>
-            <CDropdownMenu>
-              <CDropdownItem href="#">Action</CDropdownItem>
-              <CDropdownItem href="#">Another action</CDropdownItem>
-              <CDropdownItem href="#">Something else here</CDropdownItem>
-            </CDropdownMenu>
-          </CDropdown>
-        </div>
-      </div>
-    </div>
+  return (
+    <CHeader position="sticky" className="mb-4">
+      <CContainer fluid>
+        <CHeaderToggler className="ps-1">
+          <CButton
+            onClick={() => {
+              dispatch(toggle());
+            }}
+          >
+            <CIcon className="sidebar-brand-full" icon={cilList} />
+          </CButton>
+        </CHeaderToggler>
+        <CHeaderBrand className="mx-auto d-md-none" to="/">
+          Hello
+          {/* <CIcon icon={logo} height={48} alt="Logo" /> */}
+        </CHeaderBrand>
+        <CHeaderNav className="d-none d-md-flex me-auto">
+          <CNavItem>
+            {/* <CNavLink to="/dashboard" component={NavLink}>
+              Dashboard
+            </CNavLink> */}
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">Users</CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">Settings</CNavLink>
+          </CNavItem>
+        </CHeaderNav>
+        <CHeaderNav>
+          <CNavItem>
+            <CNavLink href="#">{/* <CIcon icon={cilBell} size="lg" /> */}</CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">{/* <CIcon icon={cilList} size="lg" /> */}</CNavLink>
+          </CNavItem>
+          <CNavItem>
+            <CNavLink href="#">{/* <CIcon icon={cilEnvelopeOpen} size="lg" /> */}</CNavLink>
+          </CNavItem>
+        </CHeaderNav>
+        <CHeaderNav className="ms-3">{/* <AppHeaderDropdown /> */}</CHeaderNav>
+      </CContainer>
+    </CHeader>
   );
 }

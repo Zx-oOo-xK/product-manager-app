@@ -64,7 +64,7 @@ export default function ProductForm() {
   }, [updateSuccess]);
 
   useEffect(() => {
-    if (selectedProduct) {
+    if (id && selectedProduct) {
       Object.keys(selectedProduct).map((name) => setValue(name, selectedProduct[name]));
     }
   }, [selectedProduct]);

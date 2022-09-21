@@ -52,21 +52,28 @@ export default function AppTable({ dataSource, columns }) {
   const AppRow = useCallback(withColumns(columns), [columns]);
 
   return (
-    <CTable className="AppTable table-hover">
-      <CTableHead className="text-light">
-        <CTableRow>
-          {columns.map((col) => (
-            <CTableHeaderCell scope="col" key={col.key} className="bg-info p-3">
-              {col.title}
-            </CTableHeaderCell>
+    <div className="AppTable">
+      <CTable className="table-hover">
+        <CTableHead className="text-light">
+          <CTableRow>
+            {columns.map((col) => (
+              <CTableHeaderCell
+                scope="col"
+                key={col.key}
+                className="p-3"
+                style={{ background: 'linear-gradient(to bottom, #8E2DE2, #4A00E0)' }}
+              >
+                {col.title}
+              </CTableHeaderCell>
+            ))}
+          </CTableRow>
+        </CTableHead>
+        <CTableBody>
+          {dataSource.map((data) => (
+            <AppRow key={`row_${data.id}`} data={data} />
           ))}
-        </CTableRow>
-      </CTableHead>
-      <CTableBody>
-        {dataSource.map((data) => (
-          <AppRow key={`row_${data.id}`} data={data} />
-        ))}
-      </CTableBody>
-    </CTable>
+        </CTableBody>
+      </CTable>
+    </div>
   );
 }

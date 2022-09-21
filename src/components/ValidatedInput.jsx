@@ -1,5 +1,5 @@
-import { CFormInput } from '@coreui/react';
 import React from 'react';
+import { CFormInput } from '@coreui/react';
 import { Controller } from 'react-hook-form';
 
 /**

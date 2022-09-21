@@ -1,5 +1,5 @@
-import { CFormCheck } from '@coreui/react';
 import React from 'react';
+import { CFormCheck } from '@coreui/react';
 import { Controller } from 'react-hook-form';
 
 /**
@@ -18,12 +18,12 @@ export default function ValidatedCheckbox({ control, name, label, rules, require
       name={name}
       rules={rules}
       control={control}
-      render={({ field: { onChange, onBlur, value, ref }, fieldState: { error } }) => (
+      render={({ field: { onChange, onBlur, ref, value }, fieldState: { error } }) => (
         <CFormCheck
           label={label}
           onChange={onChange}
           onBlur={onBlur}
-          value={value}
+          checked={value}
           name={name}
           ref={ref}
           invalid={!!error}

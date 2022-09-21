@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CBadge, CSpinner, CButton } from '@coreui/react';
+import { CSpinner, CButton } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useDispatch, useSelector } from 'react-redux';
@@ -40,7 +40,7 @@ const initColumns = (dispatch) => [
     key: 'quantity',
   },
   {
-    title: 'User id',
+    title: 'User',
     dataIndex: 'userID',
     key: 'userID',
   },
@@ -49,9 +49,17 @@ const initColumns = (dispatch) => [
     dataIndex: 'isActive',
     key: 'isActive',
     render: (data) => (
-      <CBadge color={data.isActive ? 'success' : 'danger'}>
-        {data.isActive ? 'Active' : 'UnActive'}
-      </CBadge>
+      <div style={{ marginLeft: '1em' }}>
+        {data.isActive ? (
+          <FontAwesomeIcon icon={solid('check')} style={{ color: '#76ff03' }} />
+        ) : (
+          <FontAwesomeIcon icon={solid('xmark')} style={{ color: '#f50057' }} />
+        )}
+      </div>
+
+      // <CBadge color={data.isActive ? 'success' : 'danger'}>
+      //   {data.isActive ? 'Active' : 'UnActive'}
+      // </CBadge>
     ),
   },
   {
@@ -125,14 +133,14 @@ export default function ProductList() {
         {loading ? (
           <Loading />
         ) : (
-          <div style={{ border: '1px solid black' }}>
-            <div style={{ margin: 'auto' }}>
-              <div style={{ display: 'block' }}>
-                <AppTable dataSource={products} columns={columns} />
-              </div>
+          <div>
+            <div>
+              <AppTable dataSource={products} columns={columns} />
 
               <div>
-                <div style={{ display: 'flex', width: '100%', justifyContent: 'space-between' }}>
+                <div
+                  style={{ display: 'flex', width: '100%', justifyContent: 'right', gap: '1rem' }}
+                >
                   <AppPagination
                     activePage={currentPage}
                     prev={prev}

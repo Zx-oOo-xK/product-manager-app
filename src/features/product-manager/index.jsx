@@ -2,18 +2,18 @@ import withSuspense from 'common/withSuspense';
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
 
-const ProductList = React.lazy(() => import('./ProductList'));
-const ProductDashboard = React.lazy(() => import('./ProductDashboard'));
-const ProductForm = React.lazy(() => import('./ProductForm'));
+const ProductList = withSuspense(React.lazy(() => import('./ProductList')));
+const ProductDashboard = withSuspense(React.lazy(() => import('./ProductDashboard')));
+const ProductForm = withSuspense(React.lazy(() => import('./ProductForm')));
 
 export default function ProductRouter() {
   return (
     <Routes>
-      <Route path="/" element={withSuspense(ProductList)()}>
-        <Route path="/new" element={withSuspense(ProductForm)()} />
-        <Route path="/:id/update" element={withSuspense(ProductForm)()} />
+      <Route path="/" element={<ProductList />}>
+        <Route path="/new" element={<ProductForm />} />
+        <Route path="/:id/update" element={<ProductForm />} />
       </Route>
-      <Route path="/dashboard" element={withSuspense(ProductDashboard)()} />
+      <Route path="/dashboard" element={<ProductDashboard />} />
     </Routes>
   );
 }

@@ -69,7 +69,8 @@ export default function AppPagination({
   jumpPrev,
   jumpNext,
 }) {
-  const offset = ValueInRange(activePage - 3, 0, pages - maxDisplayNodePagination + 1);
+  const max = pages > maxDisplayNodePagination + 1 ? pages - maxDisplayNodePagination + 1 : 0;
+  const offset = ValueInRange(activePage - 3, 0, max);
   const displayBreakPrev = offset > 0;
   const displayBreakNext = offset < pages - maxDisplayNodePagination;
   const list = Array.from({ length: pages }, (_, i) => i + 1);
@@ -82,7 +83,7 @@ export default function AppPagination({
   const labelJumpNext = <FontAwesomeIcon icon={solid('angles-right')} />;
 
   return (
-    <CPagination className="AppPagination" style={{ margin: 0 }}>
+    <CPagination className="AppPagination" style={{ margin: 0, zIndex: 0 }}>
       <CPaginationItem onClick={jumpPrev}>{labelJumpPrev}</CPaginationItem>
       <CPaginationItem onClick={prev}>{labelPrev}</CPaginationItem>
       {displayBreakPrev && <CPaginationItem onClick={breakPrev}>{labelBreakPrev}</CPaginationItem>}
