@@ -8,42 +8,43 @@ import usePaginate from 'hooks/usePaginate';
 import AppPagination from 'components/AppPagination';
 import { Link, Outlet } from 'react-router-dom';
 import AppFormSelect from 'components/AppFormSelect';
-import { cilSwapVertical } from '@coreui/icons';
-import CIcon from '@coreui/icons-react';
 import { deleteProduct, getProducts } from './productSlice';
 
-function TitleTable({ sort, name }) {
-  return (
-    <div className="d-flex justify-content-between align-items-center">
-      <span>{name}</span>
-      {sort && <CIcon icon={cilSwapVertical} />}
-    </div>
-  );
-}
+// function Loading() {
+//   return (
+//     <div style={{ position: 'relative', padding: '2rem' }}>
+//       <CSpinner style={{ position: 'absolute', left: '50%', translate: '-50%' }} />
+//     </div>
+//   );
+// }
 
 const initColumns = (dispatch) => [
   {
-    title: <TitleTable sort name="Title" />,
+    title: 'title',
     dataIndex: 'title',
     key: 'title',
+    sorter: true,
   },
   {
-    title: <TitleTable sort name="Description" />,
+    title: 'Description',
     dataIndex: 'description',
     key: 'description',
+    sorter: true,
   },
   {
-    title: <TitleTable sort name="Price" />,
+    title: 'Price',
     dataIndex: 'price',
     key: 'price',
+    sorter: true,
   },
   {
-    title: <TitleTable sort name="Quantity" />,
+    title: 'Quantity',
     dataIndex: 'quantity',
     key: 'quantity',
+    sorter: true,
   },
   {
-    title: <TitleTable sort name="User" />,
+    title: 'User',
     dataIndex: 'userID',
     key: 'userID',
   },

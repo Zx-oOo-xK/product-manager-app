@@ -5,7 +5,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 export default function ProductDashboard() {
   return (
     <div>
-      <Skeleton count={3} />
+      <Skeleton count={3} width="75%" height="2" />
     </div>
   );
 }

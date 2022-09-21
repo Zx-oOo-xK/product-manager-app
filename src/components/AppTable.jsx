@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import {
+  CButton,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -8,7 +9,9 @@ import {
   CTableRow,
 } from '@coreui/react';
 import './Style/style.scss';
-import Skeleton from 'react-loading-skeleton';
+import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
+import CIcon from '@coreui/icons-react';
+import { cilSwapVertical } from '@coreui/icons';
 
 /**
  * withColumns a function that return a table-row component
@@ -38,9 +41,29 @@ export function withColumns(cols) {
   };
 }
 
-// TODO: add loading to load data table
+/**
+ * AppTableHead is a table header cell
+ *
+ * @param {bool} title - is title of the header cell
+ * @param {bool} sorter - is a boolean indicating whether the header cells should be sorted
+ * @returns
+ */
+function AppTableHead({ title, sorter, isLoading }) {
+  return (
+    <div className="d-flex justify-content-between align-items-center">
+      <div>{title}</div>
+      {sorter && (
+        <CButton disabled={isLoading}>
+          <CIcon icon={cilSwapVertical} />
+        </CButton>
+      )}
+    </div>
+  );
+}
 
 /**
+ * AppTable is a table that displays data
+ *
  * @param {Object[]} dataSource - a list of data rows, each row must have an id
  * @param {Object[]} columns - a list of columns, with column have properties:
  * - key: unique key of column
@@ -61,10 +84,10 @@ export default function AppTable({ dataSource, columns, isLoading }) {
               <CTableHeaderCell
                 scope="col"
                 key={col.key}
-                className="p-3"
+                className="p-3 align-middle"
                 style={{ background: 'linear-gradient(to bottom, #8E2DE2, #4A00E0)' }}
               >
-                {col.title}
+                <AppTableHead title={col.title} sorter={col.sorter} isLoading={isLoading} />
               </CTableHeaderCell>
             ))}
           </CTableRow>
@@ -75,9 +98,11 @@ export default function AppTable({ dataSource, columns, isLoading }) {
               {columns.map((col) => (
                 <CTableDataCell
                   key={JSON.stringify(col.dataIndex)}
-                  style={{ backgroundColor: 'transparent' }}
+                  style={{ background: '#0d003d' }}
                 >
-                  <Skeleton count={3} style={{ padding: '20px', width: '100%' }} />
+                  <SkeletonTheme baseColor="#0d007d" highlightColor="#0d005d">
+                    <Skeleton count={3} style={{ width: '100%' }} />
+                  </SkeletonTheme>
                 </CTableDataCell>
               ))}
             </CTableRow>
