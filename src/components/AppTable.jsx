@@ -74,7 +74,7 @@ export default function AppTable({ dataSource, columns, isLoading }) {
             <CTableRow>
               {columns.map((col) => (
                 <CTableDataCell
-                  key={JSON.stringify(col)}
+                  key={JSON.stringify(col.dataIndex)}
                   style={{ backgroundColor: 'transparent' }}
                 >
                   <Skeleton count={3} style={{ padding: '20px', width: '100%' }} />
