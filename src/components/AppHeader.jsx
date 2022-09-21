@@ -1,7 +1,6 @@
 import React from 'react';
 import { cilList } from '@coreui/icons';
 import {
-  CButton,
   CContainer,
   CHeader,
   CHeaderBrand,
@@ -28,14 +27,8 @@ export default function AppHeader() {
   return (
     <CHeader position="sticky" className="mb-4">
       <CContainer fluid>
-        <CHeaderToggler className="ps-1">
-          <CButton
-            onClick={() => {
-              dispatch(toggle());
-            }}
-          >
-            <CIcon className="sidebar-brand-full" icon={cilList} />
-          </CButton>
+        <CHeaderToggler className="ps-1 border" onClick={() => dispatch(toggle())}>
+          <CIcon className="sidebar-brand-full" icon={cilList} />
         </CHeaderToggler>
         <CHeaderBrand className="mx-auto d-md-none" to="/">
           Hello

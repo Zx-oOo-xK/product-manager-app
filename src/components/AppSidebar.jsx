@@ -21,15 +21,11 @@ export default function AppSidebar() {
   const { showSidebar } = useSelector((state) => state.status);
 
   return (
-    <CSidebar
-      position="fixed"
-      unfoldable={unfoldable}
-      visible={showSidebar}
-      onVisibleChange={() => dispatch(toggle())}
-    >
+    // eslint-disable-next-line no-console
+    <CSidebar position="fixed" unfoldable={unfoldable} visible={showSidebar}>
       <CSidebarBrand className="d-none d-md-flex p-3" to="/">
         <CIcon className="sidebar-brand-full" icon={cilShieldAlt} height={35} />
-        <CCloseButton white />
+        <CCloseButton white onClick={() => dispatch(toggle())} />
       </CSidebarBrand>
       <CSidebarNav>
         {/* <SimpleBar>

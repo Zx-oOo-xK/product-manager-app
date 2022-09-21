@@ -9,7 +9,7 @@ export default function DefaultLayout() {
     <div style={{ display: 'block' }}>
       <AppSidebar className="AppSidebar" />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
-        <AppHeader className="AppHeader" />
+        <AppHeader className="AppHeader px-3" />
         <div className="body flex-grow-1 px-3">
           <AppContent />
         </div>

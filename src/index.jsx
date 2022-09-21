@@ -5,6 +5,7 @@ import getStore from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import '@coreui/coreui/dist/css/coreui.min.css';
+import 'react-loading-skeleton/dist/skeleton.css';
 import './index.css';
 
 const container = document.getElementById('root');

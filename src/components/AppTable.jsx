@@ -8,6 +8,7 @@ import {
   CTableRow,
 } from '@coreui/react';
 import './Style/style.scss';
+import Skeleton from 'react-loading-skeleton';
 
 /**
  * withColumns a function that return a table-row component
@@ -48,8 +49,8 @@ export function withColumns(cols) {
  * - render?: ({ value, record, index }) => React.ReactNode
  * @return {CTable} CTable instance
  */
-export default function AppTable({ dataSource, columns }) {
-  const AppRow = useCallback(withColumns(columns), [columns]);
+export default function AppTable({ dataSource, columns, isLoading }) {
+  const AppRow = useCallback(withColumns(columns, isLoading), [columns]);
 
   return (
     <div className="AppTable">
@@ -69,9 +70,20 @@ export default function AppTable({ dataSource, columns }) {
           </CTableRow>
         </CTableHead>
         <CTableBody>
-          {dataSource.map((data) => (
-            <AppRow key={`row_${data.id}`} data={data} />
-          ))}
+          {isLoading ? (
+            <CTableRow>
+              {columns.map((col) => (
+                <CTableDataCell
+                  key={JSON.stringify(col)}
+                  style={{ backgroundColor: 'transparent' }}
+                >
+                  <Skeleton count={3} style={{ padding: '20px', width: '100%' }} />
+                </CTableDataCell>
+              ))}
+            </CTableRow>
+          ) : (
+            dataSource.map((data) => <AppRow key={`row_${data.id}`} data={data} />)
+          )}
         </CTableBody>
       </CTable>
     </div>

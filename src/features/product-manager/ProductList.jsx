@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CSpinner, CButton } from '@coreui/react';
+import { CButton, CCol, CFormInput, CRow } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useDispatch, useSelector } from 'react-redux';
@@ -10,13 +10,13 @@ import { Link, Outlet } from 'react-router-dom';
 import AppFormSelect from 'components/AppFormSelect';
 import { deleteProduct, getProducts } from './productSlice';
 
-function Loading() {
-  return (
-    <div style={{ position: 'relative', padding: '2rem' }}>
-      <CSpinner style={{ position: 'absolute', left: '50%', translate: '-50%' }} />
-    </div>
-  );
-}
+// function Loading() {
+//   return (
+//     <div style={{ position: 'relative', padding: '2rem' }}>
+//       <CSpinner style={{ position: 'absolute', left: '50%', translate: '-50%' }} />
+//     </div>
+//   );
+// }
 
 const initColumns = (dispatch) => [
   {
@@ -124,48 +124,52 @@ export default function ProductList() {
   }, [updateSuccess]);
 
   return (
-    <div>
-      <Link to="new" className="btn btn-primary text-light text-decoration-none">
-        <FontAwesomeIcon icon={solid('plus')} />
-      </Link>
-
-      <div>
-        {loading ? (
-          <Loading />
-        ) : (
-          <div>
-            <div>
-              <AppTable dataSource={products} columns={columns} />
-
-              <div>
-                <div
-                  style={{ display: 'flex', width: '100%', justifyContent: 'right', gap: '1rem' }}
-                >
-                  <AppPagination
-                    activePage={currentPage}
-                    prev={prev}
-                    next={next}
-                    goToPage={goToPage}
-                    breakPrev={breakPrev}
-                    breakNext={breakNext}
-                    jumpPrev={jumpPrev}
-                    jumpNext={jumpNext}
-                    pages={Math.ceil(pagination.totalCount / pageSize)}
-                    maxDisplayNodePagination={DEFAULT_MAX_DISPLAY_PAGINATION_NODE}
-                  />
-
-                  <AppFormSelect
-                    pageSelect={pageSize}
-                    setPageSelect={setPageSelect}
-                    options={pageSizeOptions}
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
+    <div className="mb-4 container-fluid">
+      <div
+        className="d-flex align-items-center justify-content-between"
+        style={{ marginBottom: '1rem' }}
+      >
+        <CRow>
+          <CCol sm={10}>
+            <CFormInput style={{ borderRadius: '1rem' }} placeholder="fillter" />
+          </CCol>
+          <CCol sm={2}>
+            <Link
+              to="new"
+              className="btn btn-primary text-light text-decoration-none"
+              style={{ backgroundColor: '#8E2DE2', borderRadius: '50%' }}
+            >
+              <FontAwesomeIcon icon={solid('plus')} />
+            </Link>
+          </CCol>
+        </CRow>
       </div>
+      <div>
+        <AppTable dataSource={products} columns={columns} isLoading={loading} />
 
+        <div>
+          <div style={{ display: 'flex', width: '100%', justifyContent: 'right', gap: '1rem' }}>
+            <AppPagination
+              activePage={currentPage}
+              prev={prev}
+              next={next}
+              goToPage={goToPage}
+              breakPrev={breakPrev}
+              breakNext={breakNext}
+              jumpPrev={jumpPrev}
+              jumpNext={jumpNext}
+              pages={Math.ceil(pagination.totalCount / pageSize)}
+              maxDisplayNodePagination={DEFAULT_MAX_DISPLAY_PAGINATION_NODE}
+            />
+
+            <AppFormSelect
+              pageSelect={pageSize}
+              setPageSelect={setPageSelect}
+              options={pageSizeOptions}
+            />
+          </div>
+        </div>
+      </div>
       <Outlet />
     </div>
   );
