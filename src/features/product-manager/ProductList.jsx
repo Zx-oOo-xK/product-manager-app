@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { CButton, CCol, CFormInput, CRow } from '@coreui/react';
+import { CButton, CFormInput } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useDispatch, useSelector } from 'react-redux';
@@ -133,20 +133,29 @@ export default function ProductList() {
         className="d-flex align-items-center justify-content-between"
         style={{ marginBottom: '1rem' }}
       >
-        <CRow>
-          <CCol sm={10}>
-            <CFormInput style={{ borderRadius: '1rem' }} placeholder="fillter" />
-          </CCol>
-          <CCol sm={2}>
-            <Link
-              to="new"
-              className="btn btn-primary text-light text-decoration-none"
-              style={{ backgroundColor: '#8E2DE2', borderRadius: '50%' }}
-            >
-              <FontAwesomeIcon icon={solid('plus')} />
-            </Link>
-          </CCol>
-        </CRow>
+        <div className="d-flex w-100" style={{ justifyContent: 'space-between' }}>
+          <CFormInput
+            style={{
+              borderRadius: '1rem',
+              width: 'max-content',
+              background: 'white',
+              border: 'none',
+            }}
+            placeholder="fillter"
+          />
+          <Link
+            to="new"
+            className="btn text-light text-decoration-none d-flex align-items-center"
+            style={{
+              background: 'linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB)',
+              borderRadius: '8px',
+              gap: '.5em',
+            }}
+          >
+            <FontAwesomeIcon icon={solid('plus')} />
+            <div className="d-none d-sm-block">new product</div>
+          </Link>
+        </div>
       </div>
       <div>
         <AppTable dataSource={products} columns={columns} isLoading={loading} />

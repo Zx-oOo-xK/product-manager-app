@@ -1,11 +1,10 @@
 import React from 'react';
-import Skeleton from 'react-loading-skeleton';
-import 'react-loading-skeleton/dist/skeleton.css';
+import AppToast from 'components/AppToast';
 
 export default function ProductDashboard() {
   return (
     <div>
-      <Skeleton count={3} width="75%" height="2" />
+      <AppToast description="this is a toast" title="toast" color="danger" delay={2000} />
     </div>
   );
 }
