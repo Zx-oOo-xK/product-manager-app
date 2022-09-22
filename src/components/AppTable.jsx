@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import {
   CButton,
   CTable,
@@ -11,7 +11,9 @@ import {
 import './Style/style.scss';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import CIcon from '@coreui/icons-react';
-import { cilSwapVertical } from '@coreui/icons';
+import { cilSortAscending, cilSortDescending } from '@coreui/icons';
+import { changeSortTable } from 'app/statusSlice';
+import { useDispatch } from 'react-redux';
 
 /**
  * withColumns a function that return a table-row component
@@ -48,13 +50,25 @@ export function withColumns(cols) {
  * @param {bool} sorter - is a boolean indicating whether the header cells should be sorted
  * @returns
  */
-function AppTableHead({ title, sorter, isLoading }) {
+function AppTableHead({ title, sorter, isLoading, nameSorter }) {
+  const dispatch = useDispatch();
+  const [sortType, setSortType] = useState('asc');
   return (
     <div className="d-flex justify-content-between align-items-center">
       <div>{title}</div>
       {sorter && (
-        <CButton disabled={isLoading}>
-          <CIcon icon={cilSwapVertical} />
+        <CButton
+          disabled={isLoading}
+          onClick={() => {
+            setSortType(sortType === 'desc' ? 'asc' : 'desc');
+            dispatch(changeSortTable({ name: nameSorter, type: sortType }));
+          }}
+        >
+          {sortType === 'asc' ? (
+            <CIcon icon={cilSortAscending} />
+          ) : (
+            <CIcon icon={cilSortDescending} />
+          )}
         </CButton>
       )}
     </div>
@@ -87,7 +101,12 @@ export default function AppTable({ dataSource, columns, isLoading }) {
                 className="p-3 align-middle"
                 style={{ background: 'linear-gradient(to bottom, #8E2DE2, #4A00E0)' }}
               >
-                <AppTableHead title={col.title} sorter={col.sorter} isLoading={isLoading} />
+                <AppTableHead
+                  title={col.title}
+                  sorter={col.sorter}
+                  isLoading={isLoading}
+                  nameSorter={col.dataIndex}
+                />
               </CTableHeaderCell>
             ))}
           </CTableRow>

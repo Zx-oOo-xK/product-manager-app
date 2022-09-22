@@ -20,7 +20,7 @@ import { deleteProduct, getProducts } from './productSlice';
 
 const initColumns = (dispatch) => [
   {
-    title: 'title',
+    title: 'Title',
     dataIndex: 'title',
     key: 'title',
     sorter: true,
@@ -29,7 +29,6 @@ const initColumns = (dispatch) => [
     title: 'Description',
     dataIndex: 'description',
     key: 'description',
-    sorter: true,
   },
   {
     title: 'Price',
@@ -60,10 +59,6 @@ const initColumns = (dispatch) => [
           <FontAwesomeIcon icon={solid('xmark')} style={{ color: '#f50057' }} />
         )}
       </div>
-
-      // <CBadge color={data.isActive ? 'success' : 'danger'}>
-      //   {data.isActive ? 'Active' : 'UnActive'}
-      // </CBadge>
     ),
   },
   {
@@ -109,9 +104,11 @@ export default function ProductList() {
 
   const columns = initColumns(dispatch);
   const { products, loading, pagination, updateSuccess } = useSelector((state) => state.product);
+  const { sortInfo } = useSelector((state) => state.status);
 
   const onChangePage = (currentPage) => {
-    dispatch(getProducts({ page: currentPage, limit: pageSize }));
+    const input = { page: currentPage, limit: pageSize, sort: sortInfo };
+    dispatch(getProducts(input));
   };
 
   const [currentPage, goToPage, prev, next, breakPrev, breakNext, jumpPrev, jumpNext] = usePaginate(
@@ -120,6 +117,11 @@ export default function ProductList() {
     pagination.totalCount,
     onChangePage
   );
+
+  useEffect(() => {
+    const input = { page: currentPage, limit: pageSize, sort: sortInfo };
+    dispatch(getProducts(input));
+  }, [sortInfo]);
 
   useEffect(() => {
     if (updateSuccess) {
