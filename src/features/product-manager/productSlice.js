@@ -77,18 +77,20 @@ export const getProduct = createAsyncThunk('products/get', async (id) => {
  * @return {} list of products
  */
 export const getProducts = createAsyncThunk('products/getall', async (queryProducts) => {
-  const sort = queryProducts.sort.name ? `orderBy: {${queryProducts.sort.name}: "${queryProducts.sort.type}"},` : ''
-  const pagination = `pagination: {page: ${queryProducts.page}, limit: ${queryProducts.limit}},`
+  const sort = queryProducts.sort.name
+    ? `orderBy: {${queryProducts.sort.name}: "${queryProducts.sort.type}"},`
+    : '';
+  const pagination = `pagination: {page: ${queryProducts.page}, limit: ${queryProducts.limit}},`;
   const input = `input:{
     ${pagination} ${sort}
   }`;
 
   // eslint-disable-next-line no-console
-  console.log(queryProducts)
+  console.log(queryProducts);
 
   // eslint-disable-next-line no-console
   console.log(input);
-  
+
   const query = `query {
     GetProducts(
         ${input}
