@@ -96,12 +96,13 @@ export default function AppTable({ dataSource, columns, isLoading }) {
           {isLoading ? (
             <CTableRow>
               {columns.map((col) => (
-                <CTableDataCell
-                  key={JSON.stringify(col.dataIndex)}
-                  style={{ background: '#0d003d' }}
-                >
-                  <SkeletonTheme baseColor="#0d007d" highlightColor="#0d005d">
-                    <Skeleton count={3} style={{ width: '100%' }} />
+                <CTableDataCell key={JSON.stringify(col.dataIndex)} style={{ background: '#fff' }}>
+                  <SkeletonTheme baseColor="#ddd" highlightColor="#ccc">
+                    <Skeleton style={{ width: '100%' }} />
+                    <Skeleton style={{ width: '75%' }} />
+                    <Skeleton style={{ width: '50%' }} />
+                    <Skeleton style={{ width: '75%' }} />
+                    <Skeleton style={{ width: '50%' }} />
                   </SkeletonTheme>
                 </CTableDataCell>
               ))}
