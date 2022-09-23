@@ -11,7 +11,7 @@ import {
 import './Style/style.scss';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import CIcon from '@coreui/icons-react';
-import { cilSortAscending, cilSortDescending } from '@coreui/icons';
+import { cilArrowBottom, cilArrowTop, cilSwapVertical } from '@coreui/icons';
 import { changeSortTable } from 'app/statusSlice';
 import { useDispatch } from 'react-redux';
 
@@ -43,6 +43,19 @@ export function withColumns(cols) {
   };
 }
 
+function IconSort({ sortType }) {
+  switch (sortType) {
+    case 'asc':
+      return <CIcon icon={cilArrowBottom} />;
+    case 'desc':
+      return <CIcon icon={cilArrowTop} />;
+    case '':
+      return <CIcon icon={cilSwapVertical} />;
+    default:
+      return null;
+  }
+}
+
 /**
  * AppTableHead is a table header cell
  *
@@ -52,7 +65,22 @@ export function withColumns(cols) {
  */
 function AppTableHead({ title, sorter, isLoading, nameSorter }) {
   const dispatch = useDispatch();
-  const [sortType, setSortType] = useState('asc');
+  const [sortType, setSortType] = useState('desc');
+  const handleSetSortType = () => {
+    switch (sortType) {
+      case '':
+        setSortType('asc');
+        break;
+      case 'asc':
+        setSortType('desc');
+        break;
+      case 'desc':
+        setSortType('');
+        break;
+      default:
+    }
+  };
+
   return (
     <div className="d-flex justify-content-between align-items-center">
       <div>{title}</div>
@@ -60,15 +88,11 @@ function AppTableHead({ title, sorter, isLoading, nameSorter }) {
         <CButton
           disabled={isLoading}
           onClick={() => {
-            setSortType(sortType === 'desc' ? 'asc' : 'desc');
+            handleSetSortType();
             dispatch(changeSortTable({ name: nameSorter, type: sortType }));
           }}
         >
-          {sortType === 'asc' ? (
-            <CIcon icon={cilSortAscending} />
-          ) : (
-            <CIcon icon={cilSortDescending} />
-          )}
+          <IconSort sortType={sortType} />
         </CButton>
       )}
     </div>

@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
-import { cilShieldAlt } from '@coreui/icons';
+import { cilPuzzle, cilShieldAlt, cilSpeedometer, cibApacheAirflow } from '@coreui/icons';
 // import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { CSidebar, CSidebarBrand, CSidebarNav, CSidebarToggler, CCloseButton } from '@coreui/react';
+import {
+  CSidebar,
+  CSidebarBrand,
+  CSidebarNav,
+  CSidebarToggler,
+  CCloseButton,
+  CNavTitle,
+  CNavItem,
+  CBadge,
+  CNavGroup,
+} from '@coreui/react';
 import CIcon from '@coreui/icons-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { toggle } from 'app/statusSlice';
-// import 'simplebar/dist/simplebar.min.css';
 
 /**
  * AppSidebar is a component that displays a list of menu link
@@ -28,9 +37,24 @@ export default function AppSidebar() {
         <CCloseButton white onClick={() => dispatch(toggle())} />
       </CSidebarBrand>
       <CSidebarNav>
-        {/* <SimpleBar>
-          <AppSidebarNav items={navigation} />
-        // </SimpleBar> */}
+        <CNavTitle>Nav Title</CNavTitle>
+        <CNavItem href="products">
+          <CIcon customClassName="nav-icon" icon={cibApacheAirflow} />
+          Products
+        </CNavItem>
+        <CNavItem href="#">
+          <CIcon customClassName="nav-icon" icon={cilSpeedometer} />
+          With badge
+          <CBadge color="primary ms-auto">NEW</CBadge>
+        </CNavItem>
+        <CNavGroup toggler="Nav dropdown">
+          <CNavItem href="#">
+            <CIcon customClassName="nav-icon" icon={cilPuzzle} /> Nav dropdown item
+          </CNavItem>
+          <CNavItem href="#">
+            <CIcon customClassName="nav-icon" icon={cilPuzzle} /> Nav dropdown item
+          </CNavItem>
+        </CNavGroup>
       </CSidebarNav>
       <CSidebarToggler className="d-none d-lg-flex" onClick={() => setUnfoldable(!unfoldable)} />
     </CSidebar>

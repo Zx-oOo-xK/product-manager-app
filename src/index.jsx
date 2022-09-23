@@ -1,6 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
+import { ChakraProvider } from '@chakra-ui/react';
 import getStore from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -15,7 +16,9 @@ const store = getStore();
 root.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ChakraProvider>
+        <App />
+      </ChakraProvider>
     </Provider>
   </React.StrictMode>
 );

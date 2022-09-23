@@ -84,13 +84,7 @@ export const getProducts = createAsyncThunk('products/getall', async (queryProdu
   const input = `input:{
     ${pagination} ${sort}
   }`;
-
-  // eslint-disable-next-line no-console
-  console.log(queryProducts);
-
-  // eslint-disable-next-line no-console
-  console.log(input);
-
+  
   const query = `query {
     GetProducts(
         ${input}
@@ -130,7 +124,7 @@ const initialState = {
   selectedProduct: {},
   pagination: {},
   loading: false,
-  updateSuccess: false,
+  updateSuccess: undefined,
   errorMessage: '',
 };
 

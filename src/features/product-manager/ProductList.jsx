@@ -119,8 +119,10 @@ export default function ProductList() {
   );
 
   useEffect(() => {
-    const input = { page: currentPage, limit: pageSize, sort: sortInfo };
-    dispatch(getProducts(input));
+    if (updateSuccess !== undefined) {
+      const input = { page: currentPage, limit: pageSize, sort: sortInfo };
+      dispatch(getProducts(input));
+    }
   }, [sortInfo]);
 
   useEffect(() => {
