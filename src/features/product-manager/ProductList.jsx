@@ -9,14 +9,7 @@ import AppPagination from 'components/AppPagination';
 import { Link, Outlet } from 'react-router-dom';
 import AppFormSelect from 'components/AppFormSelect';
 import { deleteProduct, getProducts } from './productSlice';
-
-// function Loading() {
-//   return (
-//     <div style={{ position: 'relative', padding: '2rem' }}>
-//       <CSpinner style={{ position: 'absolute', left: '50%', translate: '-50%' }} />
-//     </div>
-//   );
-// }
+import './style.scss';
 
 const initColumns = (dispatch) => [
   {
@@ -52,7 +45,7 @@ const initColumns = (dispatch) => [
     dataIndex: 'isActive',
     key: 'isActive',
     render: (data) => (
-      <div style={{ marginLeft: '1em' }}>
+      <div className="active-table">
         {data.isActive ? (
           <FontAwesomeIcon icon={solid('check')} style={{ color: '#76ff03' }} />
         ) : (
@@ -66,28 +59,15 @@ const initColumns = (dispatch) => [
     dataIndex: 'action',
     key: 'action',
     render: (data) => (
-      <div className="d-flex justify-content-start" style={{ gap: '.3rem' }}>
-        <Link
-          to={`${data.id}/update`}
-          className="text-light btn btn-info text-light d-inline"
-          style={{
-            backgroundColor: '#1e88e5',
-            borderRadius: '.2rem',
-          }}
-        >
-          <FontAwesomeIcon icon={solid('pen-to-square')} style={{ color: '#fff' }} />
+      <div className="action-table">
+        <Link to={`${data.id}/update`} className="update-button text-light btn btn-info d-inline">
+          <FontAwesomeIcon icon={solid('pen-to-square')} />
         </Link>
         <CButton
-          onClick={() => {
-            dispatch(deleteProduct(data.id));
-          }}
-          className="text-light d-inline btn btn-danger"
-          style={{
-            backgroundColor: '#f50057',
-            borderRadius: '.2rem',
-          }}
+          onClick={() => dispatch(deleteProduct(data.id))}
+          className="delete-button text-light d-inline btn btn-danger"
         >
-          <FontAwesomeIcon icon={solid('trash-can')} style={{ color: '#fff' }} />
+          <FontAwesomeIcon icon={solid('trash-can')} />
         </CButton>
       </div>
     ),
@@ -132,30 +112,11 @@ export default function ProductList() {
   }, [updateSuccess]);
 
   return (
-    <div className="mb-4 container-fluid">
-      <div
-        className="d-flex align-items-center justify-content-between"
-        style={{ marginBottom: '1rem' }}
-      >
-        <div className="d-flex w-100" style={{ justifyContent: 'space-between' }}>
-          <CFormInput
-            style={{
-              borderRadius: '1rem',
-              width: 'max-content',
-              background: 'white',
-              border: 'none',
-            }}
-            placeholder="fillter"
-          />
-          <Link
-            to="new"
-            className="btn text-light text-decoration-none d-flex align-items-center"
-            style={{
-              background: 'linear-gradient(144deg, #AF40FF, #5B42F3 50%, #00DDEB)',
-              borderRadius: '8px',
-              gap: '.5em',
-            }}
-          >
+    <div className="smart-table mb-4 container-fluid">
+      <div className="header-table">
+        <div className="wrapper-fillter d-flex w-100">
+          <CFormInput className="fillter" placeholder="fillter" />
+          <Link to="new" className="new-product btn text-light">
             <FontAwesomeIcon icon={solid('plus')} />
             <div className="d-none d-sm-block">new product</div>
           </Link>
@@ -165,7 +126,7 @@ export default function ProductList() {
         <AppTable dataSource={products} columns={columns} isLoading={loading} />
 
         <div>
-          <div style={{ display: 'flex', width: '100%', justifyContent: 'right', gap: '1rem' }}>
+          <div className="footer-table">
             <AppPagination
               activePage={currentPage}
               prev={prev}

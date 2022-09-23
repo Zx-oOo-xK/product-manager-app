@@ -37,6 +37,18 @@ ul {
     color: var(--cui-table-color);
     border-color: var(--cui-table-border-color);
   }
+
+  .table-row {
+    vertical-align: middle;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .table-header-cell {
+    padding: 1rem;
+    vertical-align: middle;
+    background: linear-gradient(to bottom, #8e2de2, #4a00e0);
+  }
 }
 
 /* -------------------ScrollBar------------------ */
