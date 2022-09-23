@@ -84,7 +84,7 @@ export const getProducts = createAsyncThunk('products/getall', async (queryProdu
   const input = `input:{
     ${pagination} ${sort}
   }`;
-  
+
   const query = `query {
     GetProducts(
         ${input}
