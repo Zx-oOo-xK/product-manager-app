@@ -127,7 +127,7 @@ export default function ProductList() {
 
   useEffect(() => {
     if (updateSuccess) {
-      dispatch(getProducts({ page: currentPage, limit: pageSize }));
+      dispatch(getProducts({ page: currentPage, limit: pageSize, sort: sortInfo }));
     }
   }, [updateSuccess]);
 

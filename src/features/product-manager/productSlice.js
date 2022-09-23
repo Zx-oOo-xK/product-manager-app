@@ -17,7 +17,7 @@ export const createProduct = createAsyncThunk('products/create', async (data) =>
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     mode: 'cors',
-    body: JSON.stringify(data),
+    body: JSON.stringify({ ...data, price: Number(data.price), quantity: Number(data.quantity) }),
   });
 });
 
