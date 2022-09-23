@@ -17,6 +17,7 @@ import ValidatedTextarea from 'components/ValidatedTextarea';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { createProduct, getProduct, updateProduct } from './productSlice';
+import './style.scss';
 
 const formRules = {
   title: {
@@ -35,11 +36,6 @@ const formRules = {
   user_id: {
     required: 'Please provide a valid user id',
   },
-};
-
-const styleBase = {
-  // cForm: { left: '50%', top: '50%', transform: 'translate(-50%, -50%)' },
-  cCardHeader: { padding: '0.5rem 1rem', fontWeight: '600', color: '#777' },
 };
 
 export default function ProductForm() {
@@ -93,10 +89,10 @@ export default function ProductForm() {
         <CSpinner />
       ) : (
         <CModal visible>
-          <CForm onSubmit={handleSubmit(onSubmit)} validated style={styleBase.cForm}>
+          <CForm onSubmit={handleSubmit(onSubmit)} validated>
             <CCard>
               <CCardHeader>
-                <div style={styleBase.cCardHeader}>
+                <div className="form-card-header">
                   {id ? `Update Product [${id}]` : 'Create Product'}
                 </div>
               </CCardHeader>
