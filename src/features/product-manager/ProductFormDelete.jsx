@@ -1,5 +1,5 @@
-import { CButton, CCard, CCardBody, CCardFooter, CCardHeader, CModal } from '@coreui/react';
 import React, { useEffect } from 'react';
+import { CButton, CCard, CCardBody, CCardFooter, CCardHeader, CModal } from '@coreui/react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { motion } from 'framer-motion';
