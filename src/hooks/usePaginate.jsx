@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 /**
  * usePaginate (custom hook) - used to paginate data
@@ -6,7 +6,6 @@ import { useEffect, useState } from 'react';
  * @param {number} page - initial page number
  * @param {number} pageSize - number of items per page
  * @param {number} totalRows - number of data rows in DB
- * @param {(page, pageSize) => void} onChangePage - callback function to change page (eg: dispatch(getData(page, pageSize)))
  * @returns [currentPage, goToPage, prev, next] properties:
  * - current page number
  * - goToPage function
@@ -17,67 +16,58 @@ import { useEffect, useState } from 'react';
  * - jumpPrev function
  * - jumpNext function
  */
-export default function usePaginate(page, pageSize, totalRows, onChangePage) {
+export default function usePaginate(page, pageSize, totalRows) {
   const [currentPage, setCurrentPage] = useState(page);
   const minPage = 1;
   const maxPage = Math.ceil(totalRows / pageSize);
 
-  /**
-   * ValueInRange make sure a number is in a range
-   *
-   * @param {number} value
-   * @param {number} min
-   * @param {number} max
-   * @return value is already in range
-   */
-  const valueInRange = (value, min, max) => {
-    if (value < min) return min;
-    if (value > max) return max;
-    return value;
-  };
-  const [current, setCurrent] = useState(currentPage);
-
-  useEffect(() => {
-    const p1 = valueInRange(current, minPage, maxPage);
-    setCurrent(p1);
-    if (p1 !== currentPage) {
-      setCurrentPage(p1);
-      onChangePage(p1, pageSize);
+  const validPage = (value) => {
+    if (value < minPage || value > maxPage) {
+      return false;
     }
-  }, [current]);
-
-  useEffect(() => {
-    const p1 = valueInRange(current, minPage, maxPage);
-    setCurrentPage(p1);
-    onChangePage(p1, pageSize);
-  }, [pageSize]);
+    return true;
+  };
 
   const prev = () => {
-    setCurrent(current - 1);
+    if (validPage(currentPage - 1)) {
+      setCurrentPage(currentPage - 1);
+    }
   };
 
   const next = () => {
-    setCurrent(current + 1);
+    if (validPage(currentPage + 1)) {
+      setCurrentPage(currentPage + 1);
+    }
   };
 
   const goToPage = (pageNum) => {
-    setCurrent(pageNum);
+    if (validPage(pageNum)) {
+      setCurrentPage(pageNum);
+    }
   };
 
   const breakPrev = () => {
-    setCurrent(current - 5);
+    if (validPage(currentPage - 5)) {
+      setCurrentPage(currentPage - 5);
+    }
   };
 
   const breakNext = () => {
-    setCurrent(current + 5);
+    if (validPage(currentPage + 5)) {
+      setCurrentPage(currentPage + 5);
+    }
   };
 
   const jumpPrev = () => {
-    setCurrent(current - 10);
+    if (validPage(currentPage - 10)) {
+      setCurrentPage(currentPage - 10);
+    }
   };
 
   const jumpNext = () => {
-    setCurrent(current + 10);
+    if (validPage(currentPage + 10)) {
+      setCurrentPage(currentPage + 10);
+    }
   };
 
   return [currentPage, goToPage, prev, next, breakPrev, breakNext, jumpPrev, jumpNext];

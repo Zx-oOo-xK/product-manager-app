@@ -1,6 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useEffect, useCallback, useState } from 'react';
 import {
-  CButton,
   CTable,
   CTableBody,
   CTableDataCell,
@@ -12,8 +11,24 @@ import './Style/style.scss';
 import Skeleton, { SkeletonTheme } from 'react-loading-skeleton';
 import CIcon from '@coreui/icons-react';
 import { cilArrowBottom, cilArrowTop, cilSwapVertical } from '@coreui/icons';
-import { changeSortTable } from 'app/statusSlice';
-import { useDispatch } from 'react-redux';
+
+function TableSkeleton({ columns }) {
+  return (
+    <CTableRow>
+      {columns.map((col) => (
+        <CTableDataCell key={JSON.stringify(col.dataIndex)} style={{ background: '#fff' }}>
+          <SkeletonTheme baseColor="#ddd" highlightColor="#ccc">
+            <Skeleton style={{ width: '100%' }} />
+            <Skeleton style={{ width: '75%' }} />
+            <Skeleton style={{ width: '50%' }} />
+            <Skeleton style={{ width: '75%' }} />
+            <Skeleton style={{ width: '50%' }} />
+          </SkeletonTheme>
+        </CTableDataCell>
+      ))}
+    </CTableRow>
+  );
+}
 
 /**
  * withColumns a function that return a table-row component
@@ -39,19 +54,6 @@ export function withColumns(cols) {
   };
 }
 
-function IconSort({ sortType }) {
-  switch (sortType) {
-    case 'asc':
-      return <CIcon icon={cilArrowBottom} />;
-    case 'desc':
-      return <CIcon icon={cilArrowTop} />;
-    case '':
-      return <CIcon icon={cilSwapVertical} />;
-    default:
-      return null;
-  }
-}
-
 /**
  * AppTableHead is a table header cell
  *
@@ -59,38 +61,33 @@ function IconSort({ sortType }) {
  * @param {bool} sorter - is a boolean indicating whether the header cells should be sorted
  * @returns
  */
-function AppTableHead({ title, sorter, isLoading, nameSorter }) {
-  const dispatch = useDispatch();
-  const [sortType, setSortType] = useState('desc');
-  const handleSetSortType = () => {
-    switch (sortType) {
-      case '':
-        setSortType('asc');
-        break;
-      case 'asc':
-        setSortType('desc');
-        break;
-      case 'desc':
-        setSortType('');
-        break;
-      default:
+function AppTableHead({ title, dataIndex, sorter, isLoading, updateSorter }) {
+  const sortTypes = [
+    { type: '', icon: cilSwapVertical },
+    { type: 'asc', icon: cilArrowBottom },
+    { type: 'desc', icon: cilArrowTop },
+  ];
+
+  const [indexSort, setIndexSort] = useState(0);
+
+  const onClickSort = () => {
+    if (!isLoading) {
+      const newIndexSort = (indexSort + 1) % sortTypes.length;
+      setIndexSort(newIndexSort);
+      updateSorter({ name: dataIndex, type: sortTypes[newIndexSort].type });
     }
   };
 
   return (
-    <div className="d-flex justify-content-between align-items-center">
-      <div>{title}</div>
+    <div className="d-flex align-items-center">
       {sorter && (
-        <CButton
-          disabled={isLoading}
-          onClick={() => {
-            handleSetSortType();
-            dispatch(changeSortTable({ name: nameSorter, type: sortType }));
-          }}
-        >
-          <IconSort sortType={sortType} />
-        </CButton>
+        <CIcon
+          style={{ marginRight: '0.5rem' }}
+          icon={sortTypes[indexSort].icon}
+          onClick={() => onClickSort()}
+        />
       )}
+      <div>{title}</div>
     </div>
   );
 }
@@ -106,7 +103,15 @@ function AppTableHead({ title, sorter, isLoading, nameSorter }) {
  * - render?: ({ value, record, index }) => React.ReactNode
  * @return {CTable} CTable instance
  */
-export default function AppTable({ dataSource, columns, isLoading }) {
+export default function AppTable({ dataSource, columns, isLoading, onSort }) {
+  const [sorter, setSorter] = useState();
+
+  useEffect(() => {
+    if (sorter) {
+      onSort(sorter.name, sorter.type);
+    }
+  }, [sorter]);
+
   const AppRow = useCallback(withColumns(columns, isLoading), [columns]);
 
   return (
@@ -120,7 +125,8 @@ export default function AppTable({ dataSource, columns, isLoading }) {
                   title={col.title}
                   sorter={col.sorter}
                   isLoading={isLoading}
-                  nameSorter={col.dataIndex}
+                  dataIndex={col.dataIndex}
+                  updateSorter={setSorter}
                 />
               </CTableHeaderCell>
             ))}
@@ -128,19 +134,7 @@ export default function AppTable({ dataSource, columns, isLoading }) {
         </CTableHead>
         <CTableBody>
           {isLoading ? (
-            <CTableRow>
-              {columns.map((col) => (
-                <CTableDataCell key={JSON.stringify(col.dataIndex)} style={{ background: '#fff' }}>
-                  <SkeletonTheme baseColor="#ddd" highlightColor="#ccc">
-                    <Skeleton style={{ width: '100%' }} />
-                    <Skeleton style={{ width: '75%' }} />
-                    <Skeleton style={{ width: '50%' }} />
-                    <Skeleton style={{ width: '75%' }} />
-                    <Skeleton style={{ width: '50%' }} />
-                  </SkeletonTheme>
-                </CTableDataCell>
-              ))}
-            </CTableRow>
+            <TableSkeleton columns={columns} />
           ) : (
             dataSource.map((data) => <AppRow key={`row_${data.id}`} data={data} />)
           )}

@@ -16,7 +16,7 @@ function AppRoutes() {
 
 export default function AppContent() {
   return (
-    <div>
+    <div style={{ backgroundColor: 'white', borderRadius: '8px', padding: '1rem' }}>
       <AppRoutes />
     </div>
   );

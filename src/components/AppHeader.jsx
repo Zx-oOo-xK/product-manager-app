@@ -25,7 +25,7 @@ export default function AppHeader() {
   const dispatch = useDispatch();
 
   return (
-    <CHeader position="sticky" className="mb-4">
+    <CHeader position="sticky">
       <CContainer fluid>
         <CHeaderToggler className="ps-1 border" onClick={() => dispatch(toggle())}>
           <CIcon className="sidebar-brand-full" icon={cilList} />

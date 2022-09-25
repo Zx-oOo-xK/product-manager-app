@@ -1,7 +1,9 @@
 import React from 'react';
+import { ToastContainer } from 'react-toastify';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import { ChakraProvider, createStandaloneToast } from '@chakra-ui/react';
+import { ChakraProvider } from '@chakra-ui/react';
+import 'react-toastify/dist/ReactToastify.css';
 import getStore from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
@@ -12,8 +14,7 @@ import './index.css';
 const container = document.getElementById('root');
 const root = createRoot(container);
 
-const { ToastContainer, toast } = createStandaloneToast();
-const store = getStore(toast);
+const store = getStore();
 
 root.render(
   <React.StrictMode>

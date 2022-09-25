@@ -13,7 +13,11 @@ export default function AppFormSelect({ pageSelect, setPageSelect, options }) {
   return (
     <div className="AppFormSelect">
       <span>limit:</span>
-      <CFormSelect defaultValue={pageSelect} onChange={(e) => setPageSelect(e.target.value)}>
+      <CFormSelect
+        defaultValue={pageSelect}
+        onChange={(e) => setPageSelect(e.target.value)}
+        style={{ border: 'none', width: 'max-content !important' }}
+      >
         {options.map((item) => (
           <option key={item} value={item} type="number">
             {item}

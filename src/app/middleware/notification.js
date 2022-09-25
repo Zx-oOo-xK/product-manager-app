@@ -1,13 +1,11 @@
-export default (toast) => () => (next) => (action) => {
+import { toast } from 'react-toastify';
+
+export default () => (next) => (action) => {
   if (action.type.endsWith('fulfilled')) {
-    toast({
-      title: action.type,
-      description: 'Success',
-      status: 'success',
-      duration: 2000,
-      isClosable: true,
-      position: 'top-right',
-    });
+    toast.success(`${action.type} Successfully`, { autoClose: 2000 });
+  }
+  if (action.type.endsWith('rejected')) {
+    toast.error(`${action.type} ${action.error.message || 'error'}`, { autoClose: 2000 });
   }
   next(action);
 };

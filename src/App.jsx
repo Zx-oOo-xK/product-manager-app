@@ -17,7 +17,7 @@ const DefaultLayout = withSuspense(React.lazy(() => import('layout/DefaultLayout
 
 export default function App() {
   return (
-    <div>
+    <div style={{ backgroundColor: 'black' }}>
       <BrowserRouter>
         <Routes>
           <Route path="/*" element={<DefaultLayout />} />

@@ -77,18 +77,15 @@ export const getProduct = createAsyncThunk('products/get', async (id) => {
  * @return {} list of products
  */
 export const getProducts = createAsyncThunk('products/getall', async (queryProducts) => {
-  const sort = queryProducts.sort.name
-    ? `orderBy: {${queryProducts.sort.name}: "${queryProducts.sort.type}"},`
-    : '';
+  const sort =
+    queryProducts.sort && queryProducts.sort.name && queryProducts.sort.type
+      ? `orderBy: {${queryProducts.sort.name}: "${queryProducts.sort.type}"},`
+      : '';
   const pagination = `pagination: {page: ${queryProducts.page}, limit: ${queryProducts.limit}},`;
-  const input = `input:{
-    ${pagination} ${sort}
-  }`;
+  const input = `input:{ ${pagination} ${sort} }`;
 
   const query = `query {
-    GetProducts(
-        ${input}
-    ){
+    GetProducts( ${input} ){
         pagination {
             currentPage
             limit
@@ -103,8 +100,8 @@ export const getProducts = createAsyncThunk('products/getall', async (queryProdu
             isActive
             userID
         }
-    }
-}`;
+      }
+    }`;
 
   const response = await fetch(`${apiUrl}/graphql`, {
     method: 'POST',
