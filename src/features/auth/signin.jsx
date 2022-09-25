@@ -2,7 +2,7 @@ import React from 'react';
 import { CButton, CForm } from '@coreui/react';
 import { useForm } from 'react-hook-form';
 import ValidatedInput from 'components/ValidatedInput';
-import ValidatedCheck from 'components/ValidatedCheck';
+import ValidatedCheckbox from 'components/ValidatedCheckbox';
 import { useDispatch } from 'react-redux';
 import { signin } from './authSlice';
 
@@ -69,7 +69,7 @@ export default function SignIn() {
           rules={formRules.password}
         />
 
-        <ValidatedCheck control={control} name="rememberMe" label="Remember me" />
+        <ValidatedCheckbox control={control} name="rememberMe" label="Remember me" />
 
         <CButton color="primary" type="submit">
           Sign In

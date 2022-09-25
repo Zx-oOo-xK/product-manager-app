@@ -1,22 +1,16 @@
-/* eslint-disable react/destructuring-assignment */
-import React, { useState } from 'react';
+import React from 'react';
 import AppContent from 'components/AppContent';
 import AppHeader from 'components/AppHeader';
 import AppSidebar from 'components/AppSidebar';
+import './style.scss';
 
 export default function DefaultLayout() {
-  const [toggle, setToggle] = useState(false);
-
-  const toggleSidebar = () => {
-    setToggle(!toggle);
-  };
-
   return (
-    <div>
-      <AppSidebar visible={toggle} toggle={toggleSidebar} />
+    <div style={{ display: 'block' }}>
+      <AppSidebar className="AppSidebar" />
       <div className="wrapper d-flex flex-column min-vh-100 bg-light">
-        <AppHeader toggle={toggleSidebar} />
-        <div className="body flex-grow-1 px-3">
+        <AppHeader className="AppHeader" />
+        <div className="body flex-grow-1 p-sm-0 p-md-2 p-lg-4" style={{ backgroundColor: '#0001' }}>
           <AppContent />
         </div>
       </div>

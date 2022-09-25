@@ -1,0 +1,87 @@
+.AppPagination > dl,
+ol,
+ul {
+  margin: 0;
+}
+
+.AppFormSelect {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  span {
+    padding-right: 1rem;
+  }
+}
+
+.AppTable {
+  border-collapse: collapse;
+  overflow: auto;
+  max-height: 65vh;
+  border-radius: 14px;
+  margin-bottom: 1rem;
+  border: 0.24vw solid #fff;
+  // box-shadow: 0 3px 10px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.9);
+
+  table {
+    padding: 0;
+    margin: 0;
+    --cui-table-color: rgb(255, 255, 255); // rgba(255, 255, 255, 0.87);
+    --cui-table-bg: #516381; // #0d003d;
+    --cui-table-border-color: rgba(206, 216, 232, 0.651);
+    --cui-table-striped-bg: rgba(86, 99, 120, 0.9935);
+    --cui-table-striped-color: rgba(255, 255, 255, 0.87);
+    --cui-table-active-bg: rgba(93, 106, 126, 0.987);
+    --cui-table-active-color: rgba(255, 255, 255, 0.87);
+    --cui-table-hover-bg: rgba(216, 216, 216, 0.151); // rgba(255, 255, 255, 0.201);
+    --cui-table-hover-color: rgb(255, 255, 255); // rgba(0, 0, 0, 0.87);
+
+    border-radius: 8px;
+    overflow: hidden;
+    color: var(--cui-table-color);
+    border-color: var(--cui-table-border-color);
+  }
+
+  .table-row {
+    vertical-align: middle;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    max-width: 200px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+  }
+
+  .table-header-cell {
+    padding: 1rem;
+    vertical-align: middle;
+    background-color: #3c4b64;
+    // background: linear-gradient(to bottom, #8e2de2, #4a00e0);
+  }
+}
+
+/* -------------------ScrollBar------------------ */
+
+::-webkit-scrollbar {
+  -webkit-appearance: none;
+}
+
+::-webkit-scrollbar:vertical {
+  width: 8px;
+}
+
+::-webkit-scrollbar:horizontal {
+  height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+::-webkit-scrollbar-track {
+  background-color: #fff;
+  border-radius: 8px;
+}
+
+/* -------------------ScrollBar------------------ */

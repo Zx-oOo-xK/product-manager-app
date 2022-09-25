@@ -1,109 +1,143 @@
-import React, { useEffect, useState } from 'react';
-import { CCol, CFormInput, CFormLabel, CFormSelect, CRow, CSpinner } from '@coreui/react';
+import React, { useState, useEffect } from 'react';
+import { CFormInput } from '@coreui/react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { solid } from '@fortawesome/fontawesome-svg-core/import.macro';
 import { useDispatch, useSelector } from 'react-redux';
 import AppTable from 'components/AppTable';
+import usePaginate from 'hooks/usePaginate';
+import AppPagination from 'components/AppPagination';
+import { Link, Outlet } from 'react-router-dom';
+import AppFormSelect from 'components/AppFormSelect';
 import { getProducts } from './productSlice';
+import './style.scss';
 
-const AppPagination = React.lazy(() => import('components/AppPagination'));
-
-function FilterBar() {
-  return (
-    <div>
-      <CRow className="mb-3 d-flex align-items-center">
-        <CFormLabel className="col-sm-1 col-form-label">Filter:</CFormLabel>
-        <CCol>
-          <CFormInput type="text" placeholder="Type sring..." />
-        </CCol>
-        <CCol>
-          <FontAwesomeIcon icon={solid('filter')} />
-        </CCol>
-      </CRow>
-    </div>
-  );
-}
-
-function AppFormSelect({ setPageSelect, numberRow }) {
-  return (
-    <CFormSelect onChange={(e) => setPageSelect(e.target.value)}>
-      {numberRow.map((item) => (
-        <option key={item} value={item} type="number">
-          {item}
-        </option>
-      ))}
-    </CFormSelect>
-  );
-}
-
-const DEFAULT_MAX_DISPLAY_PAGINATION_NODE = 5;
+const initColumns = () => [
+  {
+    title: 'Title',
+    dataIndex: 'title',
+    key: 'title',
+    sorter: true,
+  },
+  {
+    title: 'Description',
+    dataIndex: 'description',
+    key: 'description',
+  },
+  {
+    title: 'Price',
+    dataIndex: 'price',
+    key: 'price',
+    sorter: true,
+  },
+  {
+    title: 'Quantity',
+    dataIndex: 'quantity',
+    key: 'quantity',
+    sorter: true,
+  },
+  {
+    title: 'User',
+    dataIndex: 'userID',
+    key: 'userID',
+  },
+  {
+    title: 'Active',
+    dataIndex: 'isActive',
+    key: 'isActive',
+    render: (data) => (
+      <div className="active-table">
+        {data.isActive ? (
+          <FontAwesomeIcon icon={solid('check')} style={{ color: '#76ff03' }} />
+        ) : (
+          <FontAwesomeIcon icon={solid('xmark')} style={{ color: '#f50057' }} />
+        )}
+      </div>
+    ),
+  },
+  {
+    title: 'Action',
+    dataIndex: 'action',
+    key: 'action',
+    render: (data) => (
+      <div className="action-table">
+        <Link to={`${data.id}/see`} className="eye-button btn">
+          <FontAwesomeIcon icon={solid('eye')} />
+        </Link>
+        <Link to={`${data.id}/update`} className="update-button btn">
+          <FontAwesomeIcon icon={solid('pen-to-square')} />
+        </Link>
+        <Link to={`${data.id}/delete`} className="delete-button btn">
+          <FontAwesomeIcon icon={solid('trash-can')} />
+        </Link>
+      </div>
+    ),
+  },
+];
 
 export default function ProductList() {
-  const numberRow = [3, 5, 10];
-  // const columns = ['title', 'price', 'quantity', 'status'];
-
-  const columns = [
-    {
-      title: 'title',
-      dataIndex: 'title',
-      key: 'title',
-    },
-    {
-      title: 'price',
-      dataIndex: 'price',
-      key: 'price',
-    },
-    {
-      title: 'quantity',
-      dataIndex: 'quantity',
-      key: 'quantity',
-    },
-    {
-      title: 'is_active',
-      dataIndex: 'is_active',
-      key: 'is_active',
-    },
-  ];
-
-  const [activePage, setActivePage] = useState(1);
-  const [pageSelect, setPageSelect] = useState(numberRow[0]);
-
   const dispatch = useDispatch();
-  const { products, loading, pagination } = useSelector((state) => state.product);
+
+  const pageSizeOptions = [10, 30, 50];
+  const [pageSize, setPageSelect] = useState(pageSizeOptions[0]);
+
+  const columns = initColumns(dispatch);
+  const { products, loading, pagination, updateSuccess } = useSelector((state) => state.product);
+
+  const [currentPage, goToPage, prev, next] = usePaginate(1, pageSize, pagination.totalCount);
 
   useEffect(() => {
-    dispatch(getProducts({ limit: pageSelect, page: activePage }));
-  }, [activePage]);
+    dispatch(getProducts({ page: currentPage, limit: pageSize }));
+  }, [currentPage, pageSize]);
+
+  useEffect(() => {
+    if (updateSuccess) {
+      dispatch(getProducts({ page: currentPage, limit: pageSize }));
+    }
+  }, [updateSuccess]);
+
+  const onSortTable = (name, type) => {
+    const input = { page: currentPage, limit: pageSize, sort: { name, type } };
+    dispatch(getProducts(input));
+  };
 
   return (
-    <div>
-      <FilterBar />
-
-      {loading ? (
-        <div style={{ position: 'relative', padding: '2rem' }}>
-          <CSpinner style={{ position: 'absolute', left: '50%', translate: '-50%' }} />
+    <div className="smart-table container-fluid">
+      <div className="header-table">
+        <div className="wrapper-fillter d-flex w-100">
+          <CFormInput className="fillter" placeholder="Fillter here!" />
+          <Link to="new" className="new-product btn text-light">
+            <FontAwesomeIcon icon={solid('plus')} />
+            <div className="d-none d-sm-block">new product</div>
+          </Link>
         </div>
-      ) : (
-        <>
-          <AppTable dataSource={products} columns={columns} />
+      </div>
+      <div>
+        <AppTable
+          dataSource={products}
+          columns={columns}
+          isLoading={loading}
+          onSort={onSortTable}
+        />
 
-          <div className="d-flex justify-content-between">
-            <AppPagination
-              activePage={activePage}
-              setActivePage={setActivePage}
-              pages={pagination.totalCount / pageSelect}
-              maxDisplayNodePagination={DEFAULT_MAX_DISPLAY_PAGINATION_NODE}
+        <div>
+          <div className="footer-table">
+            <AppFormSelect
+              pageSelect={pageSize}
+              setPageSelect={setPageSelect}
+              options={pageSizeOptions}
             />
 
-            <div className="d-flex align-items-center">
-              <div style={{ marginRight: 10 }}>limit:</div>
-              <div>
-                <AppFormSelect setPageSelect={setPageSelect} numberRow={numberRow} />
-              </div>
-            </div>
+            <AppPagination
+              activePage={currentPage}
+              prev={prev}
+              next={next}
+              goToPage={goToPage}
+              pages={Math.ceil(pagination.totalCount / pageSize)}
+            />
           </div>
-        </>
-      )}
+        </div>
+      </div>
+      <Outlet />
     </div>
   );
 }
